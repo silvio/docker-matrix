@@ -12,6 +12,10 @@ case $OPTION in
 		echo "-=> stop matrix"
 		echo "-=> via docker stop ..."
 		;;
+	"version")
+		VERSION=$(tail -n 1 /synapse.version)
+		echo "-=> Matrix Version: ${VERSION}"
+		;;
 	"generate")
 		echo "-=> generate config"
 		python -m synapse.app.homeserver \

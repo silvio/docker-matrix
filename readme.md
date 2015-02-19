@@ -22,6 +22,16 @@ For starting you need the ROOTPATH environment variable and the port binding.
 
     $ docker run -d -p 8448:8448 -v /tmp/data:/data -e ROOTPATH=/data matrix:test start
 
+# version information
+
+To get the installed synapse version you can run the image with `version` as
+argument or look at the container via cat.
+
+    $ docker run -ti --rm matrix:test version
+    -=> Matrix Version: v0.7.1-0-g894a89d
+    # docker exec -it CONTAINERID cat /synapse.version
+    v0.7.1-0-g894a89d
+
 # environment variables
 
 ROOTPATH
