@@ -16,7 +16,7 @@ RUN apt-get update -y && apt-get upgrade -y
 # development base installation
 RUN apt-get install -y build-essential python2.7-dev libffi-dev python-pip \
 		       python-setuptools sqlite3 libssl-dev python-virtualenv \
-		       libjpeg-dev
+		       libjpeg-dev git-core
 
 # clean up
 RUN apt-get clean
@@ -28,7 +28,10 @@ RUN pip install --upgrade pip
 RUN pip install envtpl
 
 # install synapse homeserver
-RUN pip install --process-dependency-links https://github.com/matrix-org/synapse/tarball/master
+RUN git clone https://github.com/matrix-org/synapse /tmp-synapse && \
+    cd /tmp-synapse && \
+    git describe --always --long | tee /synapse.version
+RUN pip install --process-dependency-links /tmp-synapse
 
 # install homerserver template
 ADD adds/start.sh /start.sh
