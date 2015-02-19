@@ -14,13 +14,13 @@ generated homeserver.yaml file.
 
 Example:
 
-    docker run -v /tmp/data:/data --rm -e ROOTPATH=/data -e SERVER_NAME=localhost matrix:test generate
+    $ docker run -v /tmp/data:/data --rm -e ROOTPATH=/data -e SERVER_NAME=localhost matrix:test generate
 
 # Start
 
 For starting you need the ROOTPATH environment variable and the port binding.
 
-    docker run -d -p 8448:8448 -v /tmp/data:/data -e ROOTPATH=/data matrix:test start
+    $ docker run -d -p 8448:8448 -v /tmp/data:/data -e ROOTPATH=/data matrix:test start
 
 # environment variables
 
