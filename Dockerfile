@@ -16,7 +16,8 @@ RUN apt-get update -y && apt-get upgrade -y
 # development base installation
 RUN apt-get install -y build-essential python2.7-dev libffi-dev python-pip \
 		       python-setuptools sqlite3 libssl-dev python-virtualenv \
-		       libjpeg-dev git-core
+		       libjpeg-dev git-core \
+		       subversion libevent-dev libsqlite3-dev pwgen
 
 # clean up
 RUN apt-get clean
@@ -32,6 +33,14 @@ RUN git clone https://github.com/matrix-org/synapse /tmp-synapse && \
     cd /tmp-synapse && \
     git describe --always --long | tee /synapse.version
 RUN pip install --process-dependency-links /tmp-synapse
+
+# install turn-server
+RUN svn co http://coturn.googlecode.com/svn/trunk coturn && \
+    cd coturn && \
+    ./configure && \
+    make && \
+    make install
+
 
 # install homerserver template
 ADD adds/start.sh /start.sh
