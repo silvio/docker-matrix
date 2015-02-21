@@ -18,9 +18,9 @@ Example:
 
 # Start
 
-For starting you need the ROOTPATH environment variable and the port binding.
+For starting you need the ROOTPATH environment variable and the port bindings.
 
-    $ docker run -d -p 8448:8448 -v /tmp/data:/data -e ROOTPATH=/data matrix:test start
+    $ docker run -d -p 8448:8448 -p 3478:3478 -v /tmp/data:/data -e ROOTPATH=/data matrix:test start
 
 # version information
 
