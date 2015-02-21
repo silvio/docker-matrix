@@ -29,8 +29,11 @@ RUN pip install --upgrade pip
 RUN pip install envtpl
 
 # install synapse homeserver
-RUN git clone https://github.com/matrix-org/synapse /tmp-synapse && \
-    cd /tmp-synapse && \
+RUN git clone https://github.com/matrix-org/synapse /tmp-synapse
+# the "git clone" is cached, we need to invalidate the docker cache here
+ADD http://www.random.org/strings/?num=1&len=10&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new uuid
+RUN cd /tmp-synapse && \
+    git pull && \
     git describe --always --long | tee /synapse.version
 RUN pip install --process-dependency-links /tmp-synapse
 
