@@ -14,20 +14,20 @@ generated homeserver.yaml file.
 
 Example:
 
-    $ docker run -v /tmp/data:/data --rm -e ROOTPATH=/data -e SERVER_NAME=localhost matrix:test generate
+    $ docker run -v /tmp/data:/data --rm -e ROOTPATH=/data -e SERVER_NAME=localhost silviof/docker-matrix generate
 
 # Start
 
 For starting you need the ROOTPATH environment variable and the port bindings.
 
-    $ docker run -d -p 8448:8448 -p 3478:3478 -v /tmp/data:/data -e ROOTPATH=/data matrix:test start
+    $ docker run -d -p 8448:8448 -p 3478:3478 -v /tmp/data:/data -e ROOTPATH=/data silviof/docker-matrix start
 
 # version information
 
 To get the installed synapse version you can run the image with `version` as
 argument or look at the container via cat.
 
-    $ docker run -ti --rm matrix:test version
+    $ docker run -ti --rm silviof/docker-matrix version
     -=> Matrix Version: v0.7.1-0-g894a89d
     # docker exec -it CONTAINERID cat /synapse.version
     v0.7.1-0-g894a89d
