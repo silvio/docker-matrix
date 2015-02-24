@@ -31,8 +31,8 @@ For starting you need the ROOTPATH environment variable and the port bindings.
 This following ports are used in the container. You can use `-p`-option on
 `docker run` to configure this part (eg.: `-p 443:8448`).
 
-turnserver: 3478,3479,5349,5350 udp and tcp
-homeserver: 8008,8448 tcp
+* turnserver: 3478,3479,5349,5350 udp and tcp
+* homeserver: 8008,8448 tcp
 
 # Version information
 
