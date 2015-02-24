@@ -28,6 +28,8 @@ case $OPTION in
 		echo "use-auth-secret" >> /$ROOTPATH/turnserver.conf
 		echo "static-auth-secret=${turnkey}" >> /$ROOTPATH/turnserver.conf
 		echo "realm=turn.$SERVER_NAME" >> /$ROOTPATH/turnserver.conf
+		echo "cert=/$ROOTPATH/port1024.net.tls.crt" >> /$ROOTPATH/turnserver.conf
+		echo "pkey=/$ROOTPATH/port1024.net.tls.key" >> /$ROOTPATH/turnserver.conf
 
 		echo "-=> generate synapse config"
 		python -m synapse.app.homeserver \
@@ -37,10 +39,13 @@ case $OPTION in
 			  --database-path /$ROOTPATH/homeserver.db \
 			  --pid-file /$ROOTPATH/homeserver.pid \
 			  --log-file /$ROOTPATH/homeserver.log \
-			  --turn-uris "turn:turn.$SERVER_NAME:3478?transport=udp,turn:turn.$SERVER_NAME:3478?transport=tcp" \
 			  --turn-shared-secret "${turnkey}" \
 			  --turn-user-lifetime 86400000 \
 			  --generate-config
+
+		echo "turn_uris:" >> /$ROOTPATH/homeserver.yaml
+		echo "- turn:turn.$SERVER_NAME:3478?transport=udp" >> /$ROOTPATH/homeserver.yaml
+		echo "- turn:turn.$SERVER_NAME:3478?transport=tcp" >> /$ROOTPATH/homeserver.yaml
 		;;
 	*)
 		echo "-=> unknown \'$OPTION\'"
