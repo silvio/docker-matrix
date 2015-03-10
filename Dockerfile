@@ -26,10 +26,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 # install/upgrade pip
 RUN pip install --upgrade pip
 
-# install env template
-RUN pip install envtpl
-
-
 # install homerserver template
 ADD adds/start.sh /start.sh
 RUN chmod a+x /start.sh
