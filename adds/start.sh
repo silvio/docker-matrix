@@ -32,9 +32,9 @@ case $OPTION in
 		echo "lt-cred-mech" > /data/turnserver.conf
 		echo "use-auth-secret" >> /data/turnserver.conf
 		echo "static-auth-secret=${turnkey}" >> /data/turnserver.conf
-		echo "realm=turn.$SERVER_NAME" >> /data/turnserver.conf
-		echo "cert=/data/port1024.net.tls.crt" >> /data/turnserver.conf
-		echo "pkey=/data/port1024.net.tls.key" >> /data/turnserver.conf
+		echo "realm=turn.${SERVER_NAME}" >> /data/turnserver.conf
+		echo "cert=/data/${SERVER_NAME}.tls.crt" >> /data/turnserver.conf
+		echo "pkey=/data/${SERVER_NAME}.tls.key" >> /data/turnserver.conf
 
 		echo "-=> generate synapse config"
 		python -m synapse.app.homeserver \
