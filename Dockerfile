@@ -28,6 +28,16 @@ RUN pip install --upgrade pip
 # install env template
 RUN pip install envtpl
 
+
+# install homerserver template
+ADD adds/start.sh /start.sh
+RUN chmod a+x /start.sh
+
+# ssh and startup configuration
+ENTRYPOINT ["/start.sh"]
+CMD ["start"]
+EXPOSE 8448
+
 # install synapse homeserver
 RUN git clone https://github.com/matrix-org/synapse /tmp-synapse
 # the "git clone" is cached, we need to invalidate the docker cache here
@@ -44,12 +54,3 @@ RUN svn co http://coturn.googlecode.com/svn/trunk coturn && \
     make && \
     make install
 
-
-# install homerserver template
-ADD adds/start.sh /start.sh
-RUN chmod a+x /start.sh
-
-# ssh and startup configuration
-ENTRYPOINT ["/start.sh"]
-CMD ["start"]
-EXPOSE 8448
