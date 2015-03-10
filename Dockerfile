@@ -4,23 +4,24 @@ FROM ubuntu:precise
 # Maintainer
 MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
 
-# set debian/ubuntu config environment to noninteractive
-ENV DEBIAN_FRONTEND noninteractive
-
 # here we should setup the initsystem problem
 RUN dpkg-divert --local --rename --add /sbin/initctl && ln -sf /bin/true /sbin/initctl
 
 # update and upgrade
-RUN apt-get update -y && apt-get upgrade -y
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -y \
+    && apt-get upgrade -y
 
 # development base installation
-RUN apt-get install -y build-essential python2.7-dev libffi-dev python-pip \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get install -y build-essential python2.7-dev libffi-dev python-pip \
 		       python-setuptools sqlite3 libssl-dev python-virtualenv \
 		       libjpeg-dev git-core \
 		       subversion libevent-dev libsqlite3-dev pwgen
 
 # clean up
-RUN apt-get clean
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get clean
 
 # install/upgrade pip
 RUN pip install --upgrade pip
