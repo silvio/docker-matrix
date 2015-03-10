@@ -31,6 +31,7 @@ RUN chmod a+x /start.sh
 ENTRYPOINT ["/start.sh"]
 CMD ["start"]
 EXPOSE 8448
+VOLUME ["/data"]
 
 # install synapse homeserver
 RUN git clone https://github.com/matrix-org/synapse /tmp-synapse

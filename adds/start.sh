@@ -2,16 +2,21 @@
 
 OPTION="${1}"
 
+if [ ! -z "${ROOTPATH}" ]; then
+	echo ":: We have changed the semantic and doesn't need the ROOTPATH"
+	echo ":: variable anymore"
+fi
+
 case $OPTION in
 	"start")
-		if [ -f /$ROOTPATH/turnserver.conf ]; then
+		if [ -f /data/turnserver.conf ]; then
 			echo "-=> start turn"
-			/usr/local/bin/turnserver --daemon -c /$ROOTPATH/turnserver.conf
+			/usr/local/bin/turnserver --daemon -c /data/turnserver.conf
 		fi
 
 		echo "-=> start matrix"
 		python -m synapse.app.homeserver \
-		       --config-path /$ROOTPATH/homeserver.yaml \
+		       --config-path /data/homeserver.yaml \
 		;;
 	"stop")
 		echo "-=> stop matrix"
@@ -24,28 +29,28 @@ case $OPTION in
 	"generate")
 		turnkey=$(pwgen -s 64 1)
 		echo "-=> generate turn config"
-		echo "lt-cred-mech" > /$ROOTPATH/turnserver.conf
-		echo "use-auth-secret" >> /$ROOTPATH/turnserver.conf
-		echo "static-auth-secret=${turnkey}" >> /$ROOTPATH/turnserver.conf
-		echo "realm=turn.$SERVER_NAME" >> /$ROOTPATH/turnserver.conf
-		echo "cert=/$ROOTPATH/port1024.net.tls.crt" >> /$ROOTPATH/turnserver.conf
-		echo "pkey=/$ROOTPATH/port1024.net.tls.key" >> /$ROOTPATH/turnserver.conf
+		echo "lt-cred-mech" > /data/turnserver.conf
+		echo "use-auth-secret" >> /data/turnserver.conf
+		echo "static-auth-secret=${turnkey}" >> /data/turnserver.conf
+		echo "realm=turn.$SERVER_NAME" >> /data/turnserver.conf
+		echo "cert=/data/port1024.net.tls.crt" >> /data/turnserver.conf
+		echo "pkey=/data/port1024.net.tls.key" >> /data/turnserver.conf
 
 		echo "-=> generate synapse config"
 		python -m synapse.app.homeserver \
 			  --server-name $SERVER_NAME \
-			  --config-path /$ROOTPATH/homeserver.yaml \
-			  --media-store-path /$ROOTPATH/media_storage \
-			  --database-path /$ROOTPATH/homeserver.db \
-			  --pid-file /$ROOTPATH/homeserver.pid \
-			  --log-file /$ROOTPATH/homeserver.log \
+			  --config-path /data/homeserver.yaml \
+			  --media-store-path /data/media_storage \
+			  --database-path /data/homeserver.db \
+			  --pid-file /data/homeserver.pid \
+			  --log-file /data/homeserver.log \
 			  --turn-shared-secret "${turnkey}" \
 			  --turn-user-lifetime 86400000 \
 			  --generate-config
 
-		echo "turn_uris:" >> /$ROOTPATH/homeserver.yaml
-		echo "- turn:turn.$SERVER_NAME:3478?transport=udp" >> /$ROOTPATH/homeserver.yaml
-		echo "- turn:turn.$SERVER_NAME:3478?transport=tcp" >> /$ROOTPATH/homeserver.yaml
+		echo "turn_uris:" >> /data/homeserver.yaml
+		echo "- turn:turn.$SERVER_NAME:3478?transport=udp" >> /data/homeserver.yaml
+		echo "- turn:turn.$SERVER_NAME:3478?transport=tcp" >> /data/homeserver.yaml
 		;;
 	*)
 		echo "-=> unknown \'$OPTION\'"
