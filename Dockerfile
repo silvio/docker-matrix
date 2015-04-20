@@ -1,5 +1,5 @@
 # baseimage is ubuntu precise (LTS)
-FROM ubuntu:precise
+FROM debian:wheezy
 
 # Maintainer
 MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
