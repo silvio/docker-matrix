@@ -6,14 +6,22 @@ MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
 # update and upgrade
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update -y \
-    && apt-get upgrade -y
-
-# development base installation
-RUN export DEBIAN_FRONTEND=noninteractive \
-    && apt-get install -y build-essential python2.7-dev libffi-dev python-pip \
-		       python-setuptools sqlite3 libssl-dev python-virtualenv \
-		       libjpeg-dev git-core \
-		       subversion libevent-dev libsqlite3-dev pwgen \
+    && apt-get upgrade -y \
+    && apt-get install -y \
+	build-essential \
+	git-core \
+	libevent-dev \
+	libffi-dev \
+	libjpeg-dev \
+	libsqlite3-dev \
+	libssl-dev \
+	pwgen \
+	python-pip \
+	python-setuptools \
+	python-virtualenv \
+	python2.7-dev \
+	sqlite3 \
+	subversion \
     && apt-get clean
 
 # install/upgrade pip
