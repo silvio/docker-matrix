@@ -3,9 +3,6 @@ FROM debian:jessie
 # Maintainer
 MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
 
-# here we should setup the initsystem problem
-RUN dpkg-divert --local --rename --add /sbin/initctl && ln -sf /bin/true /sbin/initctl
-
 # update and upgrade
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update -y \
