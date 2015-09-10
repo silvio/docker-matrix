@@ -17,7 +17,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	libssl-dev \
 	pwgen \
 	python-pip \
-	python-setuptools \
 	python-virtualenv \
 	python2.7-dev \
 	sqlite3 \
@@ -25,7 +24,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean
 
 # install/upgrade pip
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip setuptools
 
 # install homerserver template
 ADD adds/start.sh /start.sh
