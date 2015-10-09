@@ -10,7 +10,9 @@ VoIP communication server.
 
 To configure run the image with "generate" as argument. You have to setup the
 server domain and a `/data`-directory. After this you have to edit the
-generated homeserver.yaml file.
+generated homeserver.yaml file. Don't forget to configure the `vector.im.conf`
+file if you need the vector.im web client. Rename this file to deactivate
+vector.im
 
 To get the things done, "generate" will create a own self-signed certificate.
 
@@ -34,6 +36,9 @@ This following ports are used in the container. You can use `-p`-option on
 
 * turnserver: 3478,3479,5349,5350 udp and tcp
 * homeserver: 8008,8448 tcp
+* [vector.im] web client: defaults to 8080
+
+[vector.im]: https://vector.im
 
 # Version information
 

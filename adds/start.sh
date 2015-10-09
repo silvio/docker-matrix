@@ -14,6 +14,21 @@ case $OPTION in
 			/usr/local/bin/turnserver --daemon -c /data/turnserver.conf
 		fi
 
+		echo "-=> start vector.im client"
+		(
+			if [ -f /data/vector.im.conf ]; then
+				options=""
+
+				while read -r line; do
+					options="${options} ${line}"
+				done < /data/vector.im.conf
+
+				cd /vector-web/vector
+				echo "-=> vector.im options: http-server ${options}"
+				http-server ${options} &
+			fi
+		)
+
 		echo "-=> start matrix"
 		python -m synapse.app.homeserver \
 		       --config-path /data/homeserver.yaml \
@@ -35,6 +50,15 @@ case $OPTION in
 		echo "realm=turn.${SERVER_NAME}" >> /data/turnserver.conf
 		echo "cert=/data/${SERVER_NAME}.tls.crt" >> /data/turnserver.conf
 		echo "pkey=/data/${SERVER_NAME}.tls.key" >> /data/turnserver.conf
+
+		echo "-=> generate vector.im server config"
+		echo "# change this option to your needs" >> /data/vector.im.conf
+		echo "-p 8080" > /data/vector.im.conf
+		echo "-A 0.0.0.0" >> /data/vector.im.conf
+		echo "-c 3500" >> /data/vector.im.conf
+		echo "--ssl" >> /data/vector.im.conf
+		echo "--cert /data/${SERVER_NAME}.tls.crt" >> /data/vector.im.conf
+		echo "--key /data/${SERVER_NAME}.tls.key" >> /data/vector.im.conf
 
 		echo "-=> generate synapse config"
 		python -m synapse.app.homeserver \

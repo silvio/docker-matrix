@@ -9,6 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get upgrade -y \
     && apt-get install -y \
 	build-essential \
+	curl \
 	git-core \
 	libevent-dev \
 	libffi-dev \
@@ -25,6 +26,15 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 # install/upgrade pip
 RUN pip install --upgrade pip setuptools
+
+# installing vector.im with nodejs/npm
+RUN curl -sL https://deb.nodesource.com/setup | bash - ;\
+    apt-get install -y nodejs ;\
+    npm install -g webpack http-server ;\
+    git clone https://github.com/vector-im/vector-web.git ;\
+    cd vector-web ;\
+    npm install ;\
+    npm run build
 
 # install homerserver template
 ADD adds/start.sh /start.sh
