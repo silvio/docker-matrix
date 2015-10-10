@@ -20,6 +20,8 @@ case $OPTION in
 				options=""
 
 				while read -r line; do
+					[ "${line:0:1}" == "#" ] && continue
+					[ "${line:0:1}" == " " ] && continue
 					options="${options} ${line}"
 				done < /data/vector.im.conf
 
