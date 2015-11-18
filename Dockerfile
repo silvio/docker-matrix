@@ -6,7 +6,6 @@ MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
 # update and upgrade
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update -y \
-    && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
 	build-essential \
 	curl \
