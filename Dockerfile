@@ -45,13 +45,16 @@ CMD ["start"]
 EXPOSE 8448
 VOLUME ["/data"]
 
-# install synapse homeserver
-RUN git clone https://github.com/matrix-org/synapse /tmp-synapse
+# "git clone" is cached, we need to invalidate the docker cache here
+# to use this add a --build-arg INVALIDATEBUILD=$(data) to your docker build
+# parameter.
+ARG INVALIDATEBUILD=notinvalidated
 
-# the "git clone" is cached, we need to invalidate the docker cache here
-ADD http://www.random.org/strings/?num=1&len=10&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new uuid
-RUN cd /tmp-synapse \
-    && git pull \
+# install synapse homeserver
+ARG BV_SYN=master
+RUN git clone https://github.com/matrix-org/synapse /tmp-synapse \
+    && cd /tmp-synapse \
+    && git reset --hard $BV_SYN \
     && git describe --always --long | tee /synapse.version
 RUN pip install --process-dependency-links /tmp-synapse
 
