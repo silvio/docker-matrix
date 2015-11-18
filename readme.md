@@ -24,7 +24,7 @@ Example:
 
 # Start
 
-For starting you need the the port bindings and a mapping for the
+For starting you need the port bindings and a mapping for the
 `/data`-directory.
 
     $ docker run -d -p 8448:8448 -p 3478:3478 -v /tmp/data:/data silviof/docker-matrix start
@@ -52,11 +52,21 @@ argument or look at the container via cat.
 
 # Environment variables
 
-SERVER_NAME
-  ~ Server and domain name; needed only at generating time
+* `SERVER_NAME`: Server and domain name, mandatory, needed only  for `generate`
+* `REPORT_STATS`: statistic report, mandatory, values: `yes` or `no`, needed
+  only for `generate`
+
+# build specific arguments
+
+* `BV_SYN`: synapse version, optional, defaults to `master`
+* `BV_VEC`: vector version, optional, defaults to `master`
+* `BV_TUR`: coturn turnserver version, optional, defaults to `master`
+
+For building of synapse version v0.11.0-rc2 and vector with commit a9fc47e add
+`--build-arg BV_SYN=v0.11.0-rc2 --build-arg BV_VEC=a9fc47efd77` to the `docker
+build` command.
 
 # Exported volumes
 
-\/data:
-~ data-container
+* `/data`: data-container
 
