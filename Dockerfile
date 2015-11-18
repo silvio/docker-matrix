@@ -21,7 +21,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	python-virtualenv \
 	python2.7-dev \
 	sqlite3 \
-    && apt-get clean
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
 
 # install/upgrade pip
 RUN pip install --upgrade pip setuptools
