@@ -50,7 +50,8 @@ ARG BV_VEC=master
 ADD https://github.com/vector-im/vector-web/archive/$BV_VEC.zip v.zip
 RUN unzip v.zip \
     && rm v.zip \
-    && cd vector-web-* \
+    && mv vector-web-$BV_VEC vector-web \
+    && cd vector-web \
     && npm install \
     && npm run build
 
