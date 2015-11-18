@@ -66,6 +66,7 @@ case $OPTION in
 		python -m synapse.app.homeserver \
 		       --config-path /data/homeserver.yaml \
 		       --generate-config \
+		       --report-stats yes \
 		       --server-name ${SERVER_NAME}
 
 		echo "-=> configure some settings in homeserver.yaml"
