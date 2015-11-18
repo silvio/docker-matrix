@@ -44,6 +44,14 @@ case $OPTION in
 		echo "-=> Matrix Version: ${VERSION}"
 		;;
 	"generate")
+		breakup="0"
+		[[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
+		[[ -z "${REPORT_STATS}" ]] && echo "STOP! environment variable REPORT_STATS must be set to 'no' or 'yes'" && breakup="1"
+		[[ "${breakup}" == "1" ]] && exit 1
+
+		[[ "${REPORT_STATS}" != "yes" ]] && [[ "${REPORT_STATS}" != "no" ]] && \
+			echo "STOP! REPORT_STATS needs to be 'no' or 'yes'" && breakup="1"
+
 		turnkey=$(pwgen -s 64 1)
 		echo "-=> generate turn config"
 		echo "lt-cred-mech" > /data/turnserver.conf
@@ -66,7 +74,7 @@ case $OPTION in
 		python -m synapse.app.homeserver \
 		       --config-path /data/homeserver.yaml \
 		       --generate-config \
-		       --report-stats yes \
+		       --report-stats ${REPORT_STATS} \
 		       --server-name ${SERVER_NAME}
 
 		echo "-=> configure some settings in homeserver.yaml"
