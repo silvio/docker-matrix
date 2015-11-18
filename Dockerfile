@@ -10,7 +10,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
 	build-essential \
 	curl \
-	git-core \
 	libevent-dev \
 	libffi-dev \
 	libjpeg-dev \
@@ -21,6 +20,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	python-virtualenv \
 	python2.7-dev \
 	sqlite3 \
+	unzip \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
@@ -43,30 +43,36 @@ RUN pip install --upgrade pip setuptools
 ARG INVALIDATEBUILD=notinvalidated
 
 # installing vector.im with nodejs/npm
-ARG BV_VEC=master
 RUN curl -sL https://deb.nodesource.com/setup | bash - \
     && apt-get install -y nodejs \
-    && npm install -g webpack http-server \
-    && git clone https://github.com/vector-im/vector-web.git \
-    && cd vector-web \
-    && git reset --hard $BV_VEC \
+    && npm install -g webpack http-server
+
+ARG BV_VEC=master
+ADD https://github.com/vector-im/vector-web/archive/$BV_VEC.zip v.zip
+RUN unzip v.zip \
+    && rm v.zip \
+    && cd vector-web-* \
     && npm install \
     && npm run build
 
 # install synapse homeserver
 ARG BV_SYN=master
-RUN git clone https://github.com/matrix-org/synapse /tmp-synapse \
-    && cd /tmp-synapse \
-    && git reset --hard $BV_SYN \
-    && git describe --always --long | tee /synapse.version
-RUN pip install --process-dependency-links /tmp-synapse
+ADD https://github.com/matrix-org/synapse/archive/$BV_$BV_SYN.zip s.zip
+RUN unzip s.zip \
+    && rm s.zip \
+    && cd /synapse-$BV_SYN \
+    && pip install --process-dependency-links . \
+    && echo $BV_SYN > /synapse.version \
+    && rm -rf /synapse-$BV_SYN
 
 # install turn-server
 ARG BV_TUR=master
-RUN git clone https://github.com/coturn/coturn.git /tmp-coturn \
-    && cd /tmp-coturn \
-    && git reset --hard $BV_TUR \
+ADD https://github.com/coturn/coturn/archive/$BV_TUR.zip c.zip
+RUN unzip c.zip \
+    && rm c.zip \
+    && cd /coturn-$BV_TUR \
     && ./configure \
     && make \
-    && make install
+    && make install \
+    && rm -rf /coturn-$BV_TUR
 
