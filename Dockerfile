@@ -21,7 +21,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	python-virtualenv \
 	python2.7-dev \
 	sqlite3 \
-	subversion \
     && apt-get clean
 
 # install/upgrade pip
@@ -57,8 +56,10 @@ RUN cd /tmp-synapse \
 RUN pip install --process-dependency-links /tmp-synapse
 
 # install turn-server
-RUN svn co http://coturn.googlecode.com/svn/trunk coturn \
-    && cd coturn \
+ARG BV_TUR=master
+RUN git clone https://github.com/coturn/coturn.git /tmp-coturn \
+    && cd /tmp-coturn \
+    && git reset --hard $BV_TUR \
     && ./configure \
     && make \
     && make install
