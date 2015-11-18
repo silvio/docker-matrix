@@ -7,7 +7,7 @@ MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update -y \
     && apt-get upgrade -y \
-    && apt-get install -y \
+    && apt-get install -y --no-install-recommends \
 	build-essential \
 	curl \
 	git-core \
