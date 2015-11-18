@@ -24,18 +24,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# install/upgrade pip
-RUN pip install --upgrade pip setuptools
-
-# installing vector.im with nodejs/npm
-RUN curl -sL https://deb.nodesource.com/setup | bash - ;\
-    apt-get install -y nodejs ;\
-    npm install -g webpack http-server ;\
-    git clone https://github.com/vector-im/vector-web.git ;\
-    cd vector-web ;\
-    npm install ;\
-    npm run build
-
 # install homerserver template
 ADD adds/start.sh /start.sh
 RUN chmod a+x /start.sh
@@ -46,10 +34,24 @@ CMD ["start"]
 EXPOSE 8448
 VOLUME ["/data"]
 
+# install/upgrade pip
+RUN pip install --upgrade pip setuptools
+
 # "git clone" is cached, we need to invalidate the docker cache here
 # to use this add a --build-arg INVALIDATEBUILD=$(data) to your docker build
 # parameter.
 ARG INVALIDATEBUILD=notinvalidated
+
+# installing vector.im with nodejs/npm
+ARG BV_VEC=master
+RUN curl -sL https://deb.nodesource.com/setup | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g webpack http-server \
+    && git clone https://github.com/vector-im/vector-web.git \
+    && cd vector-web \
+    && git reset --hard $BV_VEC \
+    && npm install \
+    && npm run build
 
 # install synapse homeserver
 ARG BV_SYN=master
