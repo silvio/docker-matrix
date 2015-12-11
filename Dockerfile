@@ -39,7 +39,7 @@ RUN pip install --upgrade pip setuptools
 # "git clone" is cached, we need to invalidate the docker cache here
 # to use this add a --build-arg INVALIDATEBUILD=$(data) to your docker build
 # parameter.
-ARG INVALIDATEBUILD=notinvalidated
+ENV INVALIDATEBUILD=notinvalidated
 
 # installing vector.im with nodejs/npm
 RUN curl -sL https://deb.nodesource.com/setup | bash - \
