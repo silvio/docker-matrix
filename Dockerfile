@@ -46,7 +46,7 @@ RUN curl -sL https://deb.nodesource.com/setup | bash - \
     && apt-get install -y nodejs \
     && npm install -g webpack http-server
 
-ARG BV_VEC=master
+ENV BV_VEC=master
 ADD https://github.com/vector-im/vector-web/archive/$BV_VEC.zip v.zip
 RUN unzip v.zip \
     && rm v.zip \
@@ -56,7 +56,7 @@ RUN unzip v.zip \
     && npm run build
 
 # install synapse homeserver
-ARG BV_SYN=master
+ENV BV_SYN=master
 ADD https://github.com/matrix-org/synapse/archive/$BV_$BV_SYN.zip s.zip
 RUN unzip s.zip \
     && rm s.zip \
@@ -66,7 +66,7 @@ RUN unzip s.zip \
     && rm -rf /synapse-$BV_SYN
 
 # install turn-server
-ARG BV_TUR=master
+ENV BV_TUR=master
 ADD https://github.com/coturn/coturn/archive/$BV_TUR.zip c.zip
 RUN unzip c.zip \
     && rm c.zip \
