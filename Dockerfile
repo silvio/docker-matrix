@@ -57,7 +57,7 @@ RUN unzip v.zip \
 
 # install synapse homeserver
 ENV BV_SYN=master
-ADD https://github.com/matrix-org/synapse/archive/$BV_$BV_SYN.zip s.zip
+ADD https://github.com/matrix-org/synapse/archive/$BV_SYN.zip s.zip
 RUN unzip s.zip \
     && rm s.zip \
     && cd /synapse-$BV_SYN \
