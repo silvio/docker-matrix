@@ -46,9 +46,16 @@ To get the installed synapse version you can run the image with `version` as
 argument or look at the container via cat.
 
     $ docker run -ti --rm silviof/docker-matrix version
-    -=> Matrix Version: v0.7.1-0-g894a89d
+    -=> Matrix Version
+    vector:  master (49525f22c2dad03d17d80578256d6703f61db1e5)
+    synapse: master (7e0a1683e639c18bd973f825b91c908966179c15)
+    coturn:  master (88bd6268d8f4cdfdfaffe4f5029d489564270dd6)
+
     # docker exec -it CONTAINERID cat /synapse.version
-    v0.7.1-0-g894a89d
+    vector:  master (49525f22c2dad03d17d80578256d6703f61db1e5)
+    synapse: master (7e0a1683e639c18bd973f825b91c908966179c15)
+    coturn:  master (88bd6268d8f4cdfdfaffe4f5029d489564270dd6)
+
 
 # Environment variables
 

@@ -40,8 +40,8 @@ case $OPTION in
 		echo "-=> via docker stop ..."
 		;;
 	"version")
-		VERSION=$(tail -n 1 /synapse.version)
-		echo "-=> Matrix Version: ${VERSION}"
+		echo "-=> Matrix Version"
+		cat /synapse.version
 		;;
 	"generate")
 		breakup="0"

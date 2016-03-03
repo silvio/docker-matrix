@@ -9,6 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
 	build-essential \
 	curl \
+	git-core \
 	libevent-dev \
 	libffi-dev \
 	libjpeg-dev \
@@ -53,6 +54,8 @@ RUN unzip v.zip \
     && mv vector-web-$BV_VEC vector-web \
     && cd vector-web \
     && npm install \
+    && GIT_VEC=$(git ls-remote https://github.com/vector-im/vector-web $BV_VEC | cut -f 1) \
+    && echo "vector:  $BV_VEC ($GIT_VEC)" > /synapse.version \
     && npm run build
 
 # install synapse homeserver
@@ -62,7 +65,8 @@ RUN unzip s.zip \
     && rm s.zip \
     && cd /synapse-$BV_SYN \
     && pip install --process-dependency-links . \
-    && echo $BV_SYN > /synapse.version \
+    && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
+    && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && rm -rf /synapse-$BV_SYN
 
 # install turn-server
@@ -74,5 +78,7 @@ RUN unzip c.zip \
     && ./configure \
     && make \
     && make install \
+    && GIT_TUR=$(git ls-remote https://github.com/coturn/coturn $BV_TUR | cut -f 1) \
+    && echo "coturn:  $BV_TUR ($GIT_TUR)" >> /synapse.version \
     && rm -rf /coturn-$BV_TUR
 
