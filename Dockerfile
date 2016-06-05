@@ -42,22 +42,6 @@ RUN pip install --upgrade pip setuptools
 # parameter.
 ENV INVALIDATEBUILD=notinvalidated
 
-# installing vector.im with nodejs/npm
-RUN curl -sL https://deb.nodesource.com/setup | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g webpack http-server
-
-ENV BV_VEC=master
-ADD https://github.com/vector-im/vector-web/archive/$BV_VEC.zip v.zip
-RUN unzip v.zip \
-    && rm v.zip \
-    && mv vector-web-$BV_VEC vector-web \
-    && cd vector-web \
-    && npm install \
-    && GIT_VEC=$(git ls-remote https://github.com/vector-im/vector-web $BV_VEC | cut -f 1) \
-    && echo "vector:  $BV_VEC ($GIT_VEC)" > /synapse.version \
-    && npm run build
-
 # install synapse homeserver
 ENV BV_SYN=master
 ADD https://github.com/matrix-org/synapse/archive/$BV_SYN.zip s.zip
