@@ -1,28 +1,40 @@
-FROM debian:jessie
+FROM alpine:3.4
 
 # Maintainer
 MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
 
 # update and upgrade
-RUN export DEBIAN_FRONTEND=noninteractive \
-    && apt-get update -y \
-    && apt-get install -y --no-install-recommends \
-	build-essential \
+RUN apk update \
+    && apk add \
+	bash \
+	coreutils \
 	curl \
-	git-core \
+	file \
+	gcc \
+	git \
+	libevent \
 	libevent-dev \
+	libffi \
 	libffi-dev \
-	libjpeg-dev \
-	libsqlite3-dev \
-	libssl-dev \
+	libjpeg-turbo \
+	libjpeg-turbo-dev \
+	libssl1.0 \
+	libtool \
+	linux-headers \
+	make \
+	musl \
+	musl-dev \
+	openssl-dev \
 	pwgen \
-	python-pip \
-	python-virtualenv \
-	python2.7-dev \
-	sqlite3 \
+	py-pip \
+	py-virtualenv \
+	python \
+	python-dev \
+	sqlite \
+	sqlite-libs \
 	unzip \
-    && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+	zlib \
+	zlib-dev
 
 # install homerserver template
 ADD adds/start.sh /start.sh
@@ -35,7 +47,7 @@ EXPOSE 8448
 VOLUME ["/data"]
 
 # install/upgrade pip
-RUN pip install --upgrade pip setuptools
+#RUN pip install --upgrade pip setuptools
 
 # "git clone" is cached, we need to invalidate the docker cache here
 # to use this add a --build-arg INVALIDATEBUILD=$(data) to your docker build
@@ -44,6 +56,8 @@ ENV INVALIDATEBUILD=notinvalidated
 
 # install synapse homeserver
 ENV BV_SYN=master
+# https://github.com/python-pillow/Pillow/issues/1763
+ENV LIBRARY_PATH=/lib:/usr/lib
 ADD https://github.com/matrix-org/synapse/archive/$BV_SYN.zip s.zip
 RUN unzip s.zip \
     && rm s.zip \
@@ -65,4 +79,23 @@ RUN unzip c.zip \
     && GIT_TUR=$(git ls-remote https://github.com/coturn/coturn $BV_TUR | cut -f 1) \
     && echo "coturn:  $BV_TUR ($GIT_TUR)" >> /synapse.version \
     && rm -rf /coturn-$BV_TUR
+
+# remove development dependencies
+RUN apk del \
+	coreutils \
+	file \
+	gcc \
+	git \
+	libevent-dev \
+	libffi-dev \
+	libjpeg-turbo-dev \
+	libtool \
+	linux-headers \
+	make \
+	musl-dev \
+	openssl-dev \
+	python-dev \
+	sqlite-libs \
+	zlib-dev \
+    && rm -rf /var/lib/apk/* /var/cache/apk/*
 
