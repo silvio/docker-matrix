@@ -34,7 +34,8 @@ RUN apk update \
 	sqlite-libs \
 	unzip \
 	zlib \
-	zlib-dev
+	zlib-dev \
+	;
 
 # install homerserver template
 ADD adds/start.sh /start.sh
