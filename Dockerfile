@@ -18,8 +18,8 @@ ENV BV_TUR=master
 # https://github.com/python-pillow/Pillow/issues/1763
 ENV LIBRARY_PATH=/lib:/usr/lib
 
-# use --build-arg REBUILD=$(date) to invalidate the cache and upgrade all packages
- 
+# use --build-arg REBUILD=$(date) to invalidate the cache and upgrade all
+# packages
 ARG REBUILD=1
 RUN chmod a+x /start.sh \
     && apk update \
@@ -53,17 +53,18 @@ RUN chmod a+x /start.sh \
         unzip \
         zlib \
         zlib-dev \
-    && curl -L https://github.com/matrix-org/synapse/archive/$BV_SYN.zip -o s.zip \
+        ; \
+    curl -L https://github.com/matrix-org/synapse/archive/$BV_SYN.zip -o s.zip \
     && unzip s.zip \
-    && curl -L https://github.com/coturn/coturn/archive/$BV_TUR.zip -o c.zip \
-    && unzip c.zip \
-    && rm c.zip \
-    && rm s.zip \
     && cd /synapse-$BV_SYN \
     && pip install --process-dependency-links . \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && rm -rf /synapse-$BV_SYN \
+    && rm s.zip \
+    ; \
+    curl -L https://github.com/coturn/coturn/archive/$BV_TUR.zip -o c.zip \
+    && unzip c.zip \
     && cd /coturn-$BV_TUR \
     && ./configure \
     && make \
@@ -71,7 +72,9 @@ RUN chmod a+x /start.sh \
     && GIT_TUR=$(git ls-remote https://github.com/coturn/coturn $BV_TUR | cut -f 1) \
     && echo "coturn:  $BV_TUR ($GIT_TUR)" >> /synapse.version \
     && rm -rf /coturn-$BV_TUR \
-    && apk del \
+    && rm c.zip \
+    ; \
+    apk del \
         coreutils \
         file \
         gcc \
@@ -87,4 +90,5 @@ RUN chmod a+x /start.sh \
         python-dev \
         sqlite-libs \
         zlib-dev \
-    && rm -rf /var/lib/apk/* /var/cache/apk/*
+        ; \
+    rm -rf /var/lib/apk/* /var/cache/apk/*
