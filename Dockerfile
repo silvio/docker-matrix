@@ -60,7 +60,8 @@ RUN chmod a+x /start.sh \
     && pip install --process-dependency-links . \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
-    && rm -rf /synapse-$BV_SYN \
+    && cd / \
+    && rm -rf synapse-$BV_SYN \
     && rm s.zip \
     ; \
     curl -L https://github.com/coturn/coturn/archive/$BV_TUR.zip -o c.zip \
@@ -71,7 +72,8 @@ RUN chmod a+x /start.sh \
     && make install \
     && GIT_TUR=$(git ls-remote https://github.com/coturn/coturn $BV_TUR | cut -f 1) \
     && echo "coturn:  $BV_TUR ($GIT_TUR)" >> /synapse.version \
-    && rm -rf /coturn-$BV_TUR \
+    && cd / \
+    && rm -rf coturn-$BV_TUR \
     && rm c.zip \
     ; \
     apk del \
