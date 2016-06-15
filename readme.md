@@ -68,6 +68,33 @@ For building of synapse version v0.11.0-rc2 and coturn with commit a9fc47e add
 `--build-arg BV_SYN=v0.11.0-rc2 --build-arg BV_TUR=a9fc47efd77` to the `docker
 build` command.
 
+# diff between system and fresh generated config file
+
+To get a hint about new options etc you can do a diff between your configured
+homeserver.yaml and a newly created config file. Call your image with `diff` as
+argument.
+
+
+```
+$ docker run --rm -ti -v /tmp/data:/data silviof/docker-matrix diff
+[...]
++# ldap_config:
++#   enabled: true
++#   server: "ldap://localhost"
++#   port: 389
++#   tls: false
++#   search_base: "ou=Users,dc=example,dc=com"
++#   search_property: "cn"
++#   email_property: "email"
++#   full_name_property: "givenName"
+[...]
+```
+
+For generating of this output its `diff` from `busybox` used. The used diff
+parameters can be changed through `DIFFPARAMS` environment variable. The
+default is `Naur`.
+
+
 # Exported volumes
 
 * `/data`: data-container
