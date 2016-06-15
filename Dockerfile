@@ -42,6 +42,8 @@ RUN chmod a+x /start.sh \
         make \
         musl \
         musl-dev \
+        openldap \
+        openldap-dev \
         openssl-dev \
         pwgen \
         py-pip \
@@ -54,6 +56,8 @@ RUN chmod a+x /start.sh \
         zlib \
         zlib-dev \
         ; \
+    pip install python-ldap \
+    ; \
     curl -L https://github.com/matrix-org/synapse/archive/$BV_SYN.zip -o s.zip \
     && unzip s.zip \
     && cd /synapse-$BV_SYN \
@@ -88,6 +92,7 @@ RUN chmod a+x /start.sh \
         linux-headers \
         make \
         musl-dev \
+        openldap-dev \
         openssl-dev \
         python-dev \
         sqlite-libs \
