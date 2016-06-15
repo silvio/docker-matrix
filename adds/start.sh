@@ -68,14 +68,17 @@ case $OPTION in
 		python -m synapse.app.homeserver \
 		       --config-path /data/homeserver.yaml \
 		;;
+
 	"stop")
 		echo "-=> stop matrix"
 		echo "-=> via docker stop ..."
 		;;
+
 	"version")
 		echo "-=> Matrix Version"
 		cat /synapse.version
 		;;
+
 	"diff")
 		echo "-=> Diff between local configfile and a fresh generated config file"
 		echo "-=>      some values are different in technical point of view, like"
@@ -88,6 +91,7 @@ case $OPTION in
 		generate_synapse_file /tmp/homeserver.synapse.yaml
 		diff -Naur /tmp/homeserver.synapse.yaml /data/homeserver.yaml
 		;;
+
 	"generate")
 		breakup="0"
 		[[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
@@ -110,6 +114,7 @@ case $OPTION in
 
 		echo "-=> you have to review the generated configuration file homeserver.yaml"
 		;;
+
 	*)
 		echo "-=> unknown \'$OPTION\'"
 		;;
