@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 OPTION="${1}"
 
 if [ ! -z "${ROOTPATH}" ]; then
@@ -47,7 +46,7 @@ configure_homeserver_yaml() {
 		sub(/log_file: "\/homeserver.log"/, LOGFILE);
 		sub(/media_store_path: "\/media_store"/, MEDIASTORE);
 		print;
-	    }' /data/homeserver.yaml > "${filepath}"
+	    }' "${filepath}" > /data/homeserver.yaml
 }
 
 case $OPTION in
@@ -104,7 +103,7 @@ case $OPTION in
 
 		echo "-=> generate turn config"
 		turnkey=$(pwgen -s 64 1)
-		generate_turnkey_file $turnkey /data/turnserver.conf
+		generate_turn_key $turnkey /data/turnserver.conf
 
 		echo "-=> generate synapse config"
 		generate_synapse_file /data/homeserver.tmp
