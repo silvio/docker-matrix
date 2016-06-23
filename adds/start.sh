@@ -104,7 +104,7 @@ case $OPTION in
 
 		echo "-=> generate turn config"
 		turnkey=$(pwgen -s 64 1)
-		generate_turnkey_file $turnkey /data/turnserver.conf
+		generate_turn_key $turnkey /data/turnserver.conf
 
 		echo "-=> generate synapse config"
 		generate_synapse_file /data/homeserver.tmp
