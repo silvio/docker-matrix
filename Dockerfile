@@ -38,6 +38,10 @@ RUN chmod a+x /start.sh \
         libjpeg-turbo-dev \
         libssl1.0 \
         libtool \
+        libxml2 \
+        libxml2-dev \
+        libxslt \
+        libxslt-dev \
         linux-headers \
         make \
         musl \
@@ -57,6 +61,7 @@ RUN chmod a+x /start.sh \
         zlib-dev \
         ; \
     pip install python-ldap \
+    && pip install lxml \
     ; \
     curl -L https://github.com/matrix-org/synapse/archive/$BV_SYN.zip -o s.zip \
     && unzip s.zip \
@@ -89,6 +94,8 @@ RUN chmod a+x /start.sh \
         libffi-dev \
         libjpeg-turbo-dev \
         libtool \
+        libxml2-dev \
+        libxslt-dev \
         linux-headers \
         make \
         musl-dev \
