@@ -33,6 +33,8 @@ configure_homeserver_yaml() {
 	local turnkey="${1}"
 	local filepath="${2}"
 
+	local ymltemp="$(mktemp)"
+
 	awk -v TURNURIES="turn_uris: [\"turn:${SERVER_NAME}:3478?transport=udp\", \"turn:${SERVER_NAME}:3478?transport=tcp\"]" \
 	    -v TURNSHAREDSECRET="turn_shared_secret: \"${turnkey}\"" \
 	    -v PIDFILE="pid_file: /data/homeserver.pid" \
@@ -47,7 +49,9 @@ configure_homeserver_yaml() {
 		sub(/log_file: "\/homeserver.log"/, LOGFILE);
 		sub(/media_store_path: "\/media_store"/, MEDIASTORE);
 		print;
-	    }' /data/homeserver.yaml > "${filepath}"
+	    }' "${filepath}" > "${ymltemp}"
+
+	mv ${ymltemp} "${filepath}"
 }
 
 case $OPTION in
