@@ -13,8 +13,8 @@ EXPOSE 8448
 VOLUME ["/data"]
 
 # Git branch to build from
-ENV BV_SYN=master
-ENV BV_TUR=master
+ARG BV_SYN=master
+ARG BV_TUR=master
 # https://github.com/python-pillow/Pillow/issues/1763
 ENV LIBRARY_PATH=/lib:/usr/lib
 
