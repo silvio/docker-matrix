@@ -65,24 +65,24 @@ RUN chmod a+x /start.sh \
     ; \
     curl -L https://github.com/matrix-org/synapse/archive/$BV_SYN.zip -o s.zip \
     && unzip s.zip \
-    && cd /synapse-$BV_SYN \
+    && cd /synapse-$(echo $BV_SYN | tr -d v) \
     && pip install --process-dependency-links . \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
-    && rm -rf synapse-$BV_SYN \
+    && rm -rf synapse-$(echo $BV_SYN | tr -d v) \
     && rm s.zip \
     ; \
     curl -L https://github.com/coturn/coturn/archive/$BV_TUR.zip -o c.zip \
     && unzip c.zip \
-    && cd /coturn-$BV_TUR \
+    && cd /coturn-$(echo $BV_TUR | tr -d v) \
     && ./configure \
     && make \
     && make install \
     && GIT_TUR=$(git ls-remote https://github.com/coturn/coturn $BV_TUR | cut -f 1) \
     && echo "coturn:  $BV_TUR ($GIT_TUR)" >> /synapse.version \
     && cd / \
-    && rm -rf coturn-$BV_TUR \
+    && rm -rf coturn-$(echo $BV_TUR | tr -d v) \
     && rm c.zip \
     ; \
     apk del \
