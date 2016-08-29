@@ -23,6 +23,7 @@ ENV LIBRARY_PATH=/lib:/usr/lib
 ARG REBUILD=1
 RUN chmod a+x /start.sh \
     && apk update \
+    && apk upgrade \
     && apk add \
         bash \
         coreutils \
