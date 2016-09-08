@@ -21,7 +21,7 @@ To get the things done, "generate" will create a own self-signed certificate.
 
 Example:
 
-    $ docker run -v /tmp/data:/data --rm -e SERVER_NAME=localhost silviof/docker-matrix generate
+    $ docker run -v /tmp/data:/data --rm -e SERVER_NAME=localhost -e REPORT_STATS=no silviof/docker-matrix generate
 
 # Start
 
