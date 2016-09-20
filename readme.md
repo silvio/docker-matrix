@@ -4,10 +4,10 @@
 Dockerfile for installation of [matrix] open federated Instant Messaging and
 VoIP communication server.
 
-The vector web client has now his own docker file at [github].
+The riot.im web client has now his own docker file at [github].
 
 [matrix]: matrix.org
-[github]: https://github.com/silvio/docker-matrix-vector
+[github]: https://github.com/silvio/matrix-riot-docker
 
 # Configuration
 

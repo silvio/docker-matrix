@@ -61,10 +61,10 @@ case $OPTION in
 			/usr/local/bin/turnserver --daemon -c /data/turnserver.conf
 		fi
 
-		echo "-=> start vector.im client"
+		echo "-=> start riot.im client"
 		(
-			if [ -f /data/vector.im.conf ]; then
-				echo "The vector  web client is now handled via silvio/docker-matrix-vector"
+			if [ -f /data/vector.im.conf ] || [ -f /data/riot.im.conf ] ; then
+				echo "The riot web client is now handled via silvio/matrix-riot-docker"
 			fi
 		)
 
