@@ -53,6 +53,7 @@ RUN chmod a+x /start.sh \
         pwgen \
         py-pip \
         py-virtualenv \
+        py-psycopg2 \
         python \
         python-dev \
         sqlite \
