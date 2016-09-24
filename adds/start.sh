@@ -58,7 +58,7 @@ case $OPTION in
 	"start")
 		if [ -f /data/turnserver.conf ]; then
 			echo "-=> start turn"
-			/usr/local/bin/turnserver --daemon -c /data/turnserver.conf
+			/usr/bin/turnserver --daemon -c /data/turnserver.conf
 		fi
 
 		echo "-=> start riot.im client"

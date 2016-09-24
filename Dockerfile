@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM debian:jessie
 
 # Maintainer
 MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
@@ -13,98 +13,87 @@ EXPOSE 8448
 VOLUME ["/data"]
 
 # Git branch to build from
-ENV BV_SYN=master
-ENV BV_TUR=master
+ARG BV_SYN=master
+ARG BV_TUR=master
 # https://github.com/python-pillow/Pillow/issues/1763
 ENV LIBRARY_PATH=/lib:/usr/lib
 
 # use --build-arg REBUILD=$(date) to invalidate the cache and upgrade all
 # packages
 ARG REBUILD=1
-RUN chmod a+x /start.sh \
-    && apk update \
-    && apk upgrade \
-    && apk add \
+RUN chmod a+x /start.sh ;\
+    export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -y \
+    && apt-get upgrade -y \
+    && apt-get install -y \
         bash \
         coreutils \
+        coturn \
         curl \
         file \
         gcc \
         git \
-        libevent \
+        libevent-2.0-5 \
         libevent-dev \
-        libffi \
         libffi-dev \
-        libjpeg-turbo \
-        libjpeg-turbo-dev \
-        libssl1.0 \
+        libffi6 \
+        libgnutls28-dev \
+        libjpeg62-turbo \
+        libjpeg62-turbo-dev \
+        libldap-2.4-2 \
+        libldap2-dev \
+        libsasl2-dev \
+        libsqlite3-dev \
+        libssl-dev \
+        libssl1.0.0 \
         libtool \
         libxml2 \
         libxml2-dev \
-        libxslt \
-        libxslt-dev \
-        linux-headers \
+        libxslt1-dev \
+        libxslt1.1 \
+        linux-headers-amd64 \
         make \
-        musl \
-        musl-dev \
-        openldap \
-        openldap-dev \
-        openssl-dev \
         pwgen \
-        py-pip \
-        py-virtualenv \
-        py-psycopg2 \
         python \
         python-dev \
+        python-pip \
+        python-psycopg2 \
+        python-virtualenv \
         sqlite \
-        sqlite-libs \
         unzip \
-        zlib \
-        zlib-dev \
-        ; \
-    pip install python-ldap \
-    && pip install lxml \
+        zlib1g \
+        zlib1g-dev \
+    ; \
+    pip install --upgrade pip ;\
+    pip install --upgrade python-ldap ;\
+    pip install --upgrade lxml \
     ; \
     curl -L https://github.com/matrix-org/synapse/archive/$BV_SYN.zip -o s.zip \
     && unzip s.zip \
     && cd /synapse-$BV_SYN \
-    && pip install --process-dependency-links . \
+    && pip install --upgrade --process-dependency-links . \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
     && rm -rf synapse-$BV_SYN \
     && rm s.zip \
     ; \
-    curl -L https://github.com/coturn/coturn/archive/$BV_TUR.zip -o c.zip \
-    && unzip c.zip \
-    && cd /coturn-$BV_TUR \
-    && ./configure \
-    && make \
-    && make install \
-    && GIT_TUR=$(git ls-remote https://github.com/coturn/coturn $BV_TUR | cut -f 1) \
-    && echo "coturn:  $BV_TUR ($GIT_TUR)" >> /synapse.version \
-    && cd / \
-    && rm -rf coturn-$BV_TUR \
-    && rm c.zip \
-    ; \
-    apk del \
-        coreutils \
+    apt-get remove \
         file \
         gcc \
         git \
         libevent-dev \
         libffi-dev \
-        libjpeg-turbo-dev \
+        libjpeg62-turbo-dev \
+        libldap2-dev \
+        libsqlite3-dev \
+        libssl-dev \
         libtool \
         libxml2-dev \
-        libxslt-dev \
-        linux-headers \
+        libxslt1-dev \
+        linux-headers-amd64 \
         make \
-        musl-dev \
-        openldap-dev \
-        openssl-dev \
         python-dev \
-        sqlite-libs \
-        zlib-dev \
-        ; \
-    rm -rf /var/lib/apk/* /var/cache/apk/*
+        zlib1g-dev \
+    ; \
+    rm -rf /var/lib/apt/* /var/cache/apt/*
