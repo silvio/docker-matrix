@@ -23,6 +23,7 @@ ENV LIBRARY_PATH=/lib:/usr/lib
 ARG REBUILD=1
 RUN chmod a+x /start.sh ;\
     export DEBIAN_FRONTEND=noninteractive \
+    && apt-get clean \
     && apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y \
