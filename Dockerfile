@@ -79,7 +79,7 @@ RUN chmod a+x /start.sh ;\
     && rm -rf synapse-$BV_SYN \
     && rm s.zip \
     ; \
-    apt-get remove \
+    apt-get remove -y \
         file \
         gcc \
         git \
