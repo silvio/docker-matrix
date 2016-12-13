@@ -54,11 +54,21 @@ configure_homeserver_yaml() {
 	mv ${ymltemp} "${filepath}"
 }
 
+configure_log_config() {
+	sed -i "s|.*filename:\s/homeserver.log|    filename: /data/homeserver.log|g" "/data/${SERVER_NAME}.log.config"
+}
+
 case $OPTION in
 	"start")
 		if [ -f /data/turnserver.conf ]; then
 			echo "-=> start turn"
-			/usr/bin/turnserver --daemon -c /data/turnserver.conf
+			if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
+				mv -f /conf/supervisord-turnserver.conf.deactivated /conf/supervisord-turnserver.conf
+			fi
+		else
+			if [ -f /conf/supervisord-turnserver.conf ]; then
+				mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
+			fi
 		fi
 
 		echo "-=> start riot.im client"
@@ -69,8 +79,11 @@ case $OPTION in
 		)
 
 		echo "-=> start matrix"
-		python -m synapse.app.homeserver \
-		       --config-path /data/homeserver.yaml \
+		groupadd -r -g $GID matrix
+		useradd -r -d /data -M -u $UID -g matrix matrix
+		chown -R $UID:$GID /data
+		chown -R $UID:$GID /uploads
+		exec supervisord -c /supervisord.conf
 		;;
 
 	"stop")
@@ -118,6 +131,9 @@ case $OPTION in
 		mv /data/homeserver.tmp /data/homeserver.yaml
 
 		echo "-=> you have to review the generated configuration file homeserver.yaml"
+
+		echo "-=> configure some settings in ${SERVER_NAME}.log.config"
+		configure_log_config
 		;;
 
 	*)
