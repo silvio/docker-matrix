@@ -58,9 +58,13 @@ case $OPTION in
 	"start")
 		if [ -f /data/turnserver.conf ]; then
 			echo "-=> start turn"
-			mv -f /conf/turnserver.conf.deactivated /conf/turnserver.conf
+			if [ -f /conf/turnserver.conf.deactivated ]; then
+				mv -f /conf/turnserver.conf.deactivated /conf/turnserver.conf
+			fi
 		else
-			mv -f /conf/turnserver.conf /conf/turnserver.conf.deactivated
+			if [ -f /conf/turnserver.conf ]; then
+				mv -f /conf/turnserver.conf /conf/turnserver.conf.deactivated
+			fi
 		fi
 
 		echo "-=> start riot.im client"
