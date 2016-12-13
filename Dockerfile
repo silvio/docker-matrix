@@ -6,6 +6,9 @@ MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
 # install homerserver template
 COPY adds/start.sh /start.sh
 
+# add supervisor configs
+COPY adds/*.conf /conf/
+
 # startup configuration
 ENTRYPOINT ["/start.sh"]
 CMD ["start"]
@@ -67,7 +70,8 @@ RUN chmod a+x /start.sh ;\
     ; \
     pip install --upgrade pip ;\
     pip install --upgrade python-ldap ;\
-    pip install --upgrade lxml \
+    pip install --upgrade lxml ;\
+    pip install --upgrade supervisor \
     ; \
     curl -L https://github.com/matrix-org/synapse/archive/$BV_SYN.zip -o s.zip \
     && unzip s.zip \
@@ -79,7 +83,7 @@ RUN chmod a+x /start.sh ;\
     && rm -rf synapse-$BV_SYN \
     && rm s.zip \
     ; \
-    apt-get remove -y \
+    apt-get autoremove -y \
         file \
         gcc \
         git \
