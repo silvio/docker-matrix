@@ -93,4 +93,5 @@ RUN chmod a+x /start.sh ;\
         python-dev \
         zlib1g-dev \
     ; \
+    apt-get autoremove -y ;\
     rm -rf /var/lib/apt/* /var/cache/apt/*
