@@ -35,7 +35,6 @@ RUN chmod a+x /start.sh ;\
         bash \
         coreutils \
         coturn \
-        curl \
         file \
         gcc \
         git \
@@ -66,7 +65,6 @@ RUN chmod a+x /start.sh ;\
         python-psycopg2 \
         python-virtualenv \
         sqlite \
-        unzip \
         zlib1g \
         zlib1g-dev \
     ; \
@@ -75,15 +73,13 @@ RUN chmod a+x /start.sh ;\
     pip install --upgrade lxml ;\
     pip install --upgrade supervisor \
     ; \
-    curl -L https://github.com/matrix-org/synapse/archive/$BV_SYN.zip -o s.zip \
-    && unzip s.zip \
-    && cd /synapse-$BV_SYN \
+    git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
+    && cd /synapse \
     && pip install --upgrade --process-dependency-links . \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
-    && rm -rf synapse-$BV_SYN \
-    && rm s.zip \
+    && rm -rf /synapse \
     ; \
     apt-get autoremove -y \
         file \
@@ -103,4 +99,5 @@ RUN chmod a+x /start.sh ;\
         python-dev \
         zlib1g-dev \
     ; \
+    apt-get autoremove -y ;\
     rm -rf /var/lib/apt/* /var/cache/apt/*
