@@ -6,6 +6,11 @@ MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
 # install homerserver template
 COPY adds/start.sh /start.sh
 
+# add supervisor configs
+COPY adds/supervisord-matrix.conf /conf/
+COPY adds/supervisord-turnserver.conf /conf/
+COPY adds/supervisord.conf /
+
 # startup configuration
 ENTRYPOINT ["/start.sh"]
 CMD ["start"]
@@ -65,7 +70,8 @@ RUN chmod a+x /start.sh ;\
     ; \
     pip install --upgrade pip ;\
     pip install --upgrade python-ldap ;\
-    pip install --upgrade lxml \
+    pip install --upgrade lxml ;\
+    pip install --upgrade supervisor \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
@@ -75,7 +81,7 @@ RUN chmod a+x /start.sh ;\
     && cd / \
     && rm -rf /synapse \
     ; \
-    apt-get remove -y \
+    apt-get autoremove -y \
         file \
         gcc \
         git \

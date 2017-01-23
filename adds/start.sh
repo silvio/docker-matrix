@@ -58,7 +58,13 @@ case $OPTION in
 	"start")
 		if [ -f /data/turnserver.conf ]; then
 			echo "-=> start turn"
-			/usr/bin/turnserver --daemon -c /data/turnserver.conf
+			if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
+				mv -f /conf/supervisord-turnserver.conf.deactivated /conf/supervisord-turnserver.conf
+			fi
+		else
+			if [ -f /conf/supervisord-turnserver.conf ]; then
+				mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
+			fi
 		fi
 
 		echo "-=> start riot.im client"
@@ -69,8 +75,7 @@ case $OPTION in
 		)
 
 		echo "-=> start matrix"
-		python -m synapse.app.homeserver \
-		       --config-path /data/homeserver.yaml \
+		exec supervisord -c /supervisord.conf
 		;;
 
 	"stop")
