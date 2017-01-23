@@ -7,8 +7,8 @@ MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
 COPY adds/start.sh /start.sh
 
 # add supervisor configs
-COPY adds/matrix.conf /conf/
-COPY adds/turnserver.conf /conf/
+COPY adds/supervisord-matrix.conf /conf/
+COPY adds/supervisord-turnserver.conf /conf/
 COPY adds/supervisord.conf /
 
 # startup configuration

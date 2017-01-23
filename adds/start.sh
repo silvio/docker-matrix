@@ -58,12 +58,12 @@ case $OPTION in
 	"start")
 		if [ -f /data/turnserver.conf ]; then
 			echo "-=> start turn"
-			if [ -f /conf/turnserver.conf.deactivated ]; then
-				mv -f /conf/turnserver.conf.deactivated /conf/turnserver.conf
+			if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
+				mv -f /conf/supervisord-turnserver.conf.deactivated /conf/supervisord-turnserver.conf
 			fi
 		else
-			if [ -f /conf/turnserver.conf ]; then
-				mv -f /conf/turnserver.conf /conf/turnserver.conf.deactivated
+			if [ -f /conf/supervisord-turnserver.conf ]; then
+				mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
 			fi
 		fi
 
