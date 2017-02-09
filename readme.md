@@ -58,6 +58,10 @@ argument or look at the container via cat.
 * `SERVER_NAME`: Server and domain name, mandatory, needed only  for `generate`
 * `REPORT_STATS`: statistic report, mandatory, values: `yes` or `no`, needed
   only for `generate`
+* `MATRIX_UID`/`MATRIX_GID`: UserID and GroupID of user within container which
+  runs the synapse server. The files mounted under /data are `chown`ed to this
+  ownership. Default is `MATRIX_UID=991` and `MATRIX_GID=991`. It can overriden
+  via `-e MATRIX_UID=...` and `-e MATRIX_GID=...` at start time.
 
 # build specific arguments
 

@@ -80,10 +80,10 @@ case $OPTION in
 		)
 
 		echo "-=> start matrix"
-		groupadd -r -g $GID matrix
-		useradd -r -d /data -M -u $UID -g matrix matrix
-		chown -R $UID:$GID /data
-		chown -R $UID:$GID /uploads
+		groupadd -r -g $MATRIX_GID matrix
+		useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix
+		chown -R $MATRIX_UID:$MATRIX_GID /data
+		chown -R $MATRIX_UID:$MATRIX_GID /uploads
 		exec supervisord -c /supervisord.conf
 		;;
 
