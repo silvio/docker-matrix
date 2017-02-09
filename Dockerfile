@@ -24,7 +24,7 @@ ARG BV_TUR=master
 ENV LIBRARY_PATH=/lib:/usr/lib
 
 # user configuration
-ENV UID=991 GID=991
+ENV MATRIX_UID=991 MATRIX_GID=991
 
 # use --build-arg REBUILD=$(date) to invalidate the cache and upgrade all
 # packages
