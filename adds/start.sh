@@ -115,10 +115,10 @@ case $OPTION in
 		breakup="0"
 		[[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
 		[[ -z "${REPORT_STATS}" ]] && echo "STOP! environment variable REPORT_STATS must be set to 'no' or 'yes'" && breakup="1"
-		[[ "${breakup}" == "1" ]] && exit 1
-
 		[[ "${REPORT_STATS}" != "yes" ]] && [[ "${REPORT_STATS}" != "no" ]] && \
 			echo "STOP! REPORT_STATS needs to be 'no' or 'yes'" && breakup="1"
+
+		[[ "${breakup}" == "1" ]] && exit 1
 
 		echo "-=> generate turn config"
 		turnkey=$(pwgen -s 64 1)
