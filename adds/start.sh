@@ -84,6 +84,7 @@ case $OPTION in
 		useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix
 		chown -R $MATRIX_UID:$MATRIX_GID /data
 		chown -R $MATRIX_UID:$MATRIX_GID /uploads
+		chmod a+rwx /run
 		exec supervisord -c /supervisord.conf
 		;;
 
