@@ -9,6 +9,17 @@ The riot.im web client has now his own docker file at [github].
 [matrix]: matrix.org
 [github]: https://github.com/silvio/matrix-riot-docker
 
+# Contribution
+
+If you want contribute to this project feel free to fork this project, do your
+work in a branch and create a pull request.
+
+To support this Dockerimage or my work you can pledge via [bountysource] or
+[paypal.me/silviofricke]. 50% will go to charity.
+
+[bountysource]: https://www.bountysource.com
+[paypal.me/silviofricke]: https://www.paypal.me/SilvioFricke
+
 # Configuration
 
 To configure run the image with "generate" as argument. You have to setup the
