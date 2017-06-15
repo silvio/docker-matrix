@@ -44,19 +44,20 @@ For starting you need the port bindings and a mapping for the
 # Port configurations
 
 ## Matrix homeserver
+
 This following ports are used in the container for the Matrix server. You can use `-p`-option on
-`docker run` to configure this part (eg.: `-p 443:8448`):
-8008,8448 tcp
+`docker run` to configure this part (eg.: `-p 443:8448`):  
+`8008,8448 tcp`
 
 ## Coturn server
 
 If you only need STUN to work you  need the following ports:  
-3478, 5349 udp/tcp
-The server has the following as alt-ports: 3479, 5350 udp/tcp
+`3478, 5349 udp/tcp`  
+The server has the following as alt-ports: `3479, 5350 udp/tcp`
 
 
-For TURN (using the server as a relay) you also need to forward this portrange (you can forward a udp portrange with `-p 49152-65535:49152-65535/udp`):
-49152-65535/udp
+For TURN (using the server as a relay) you also need to forward this portrange (you can forward a udp portrange with `-p 49152-65535:49152-65535/udp`):  
+`49152-65535/udp`    
 
 You may also have to set the external ip of the server in turnserver.conf which is located in the /data volume (you can find the external ip easily with `curl icanhazip.com`):  
 external-ip=XX.XX.XX.XX
