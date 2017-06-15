@@ -56,7 +56,7 @@ If you only need STUN to work you  need the following ports:
 The server has the following as alt-ports: `3479, 5350 udp/tcp`
 
 
-For TURN (using the server as a relay) you also need to forward this portrange (you can forward a udp portrange with `-p 49152-65535:49152-65535/udp`):  
+For TURN (using the server as a relay) you also need to forward this portrange:  
 `49152-65535/udp`    
 
 You may also have to set the external ip of the server in turnserver.conf which is located in the /data volume (you can find the external ip easily with `curl icanhazip.com`):  
