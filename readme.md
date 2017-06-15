@@ -57,14 +57,14 @@ The server has the following as alt-ports: `3479, 5350 udp/tcp`
 
 
 For TURN (using the server as a relay) you also need to forward this portrange:  
-`49152-65535/udp`    
+`49152-65535/udp`  
 
 You may also have to set the external ip of the server in turnserver.conf which is located in the /data volume (you can find the external ip easily with `curl icanhazip.com`):  
-external-ip=XX.XX.XX.XX
+`external-ip=XX.XX.XX.XX`
 
 In case you don't want to expose the whole port range on udp you can change the portrange in turnserver.conf:  
-min-port=XXXXX  
-max-port=XXXXX  
+`min-port=XXXXX`  
+`max-port=XXXXX`  
 
 # Version information
 
