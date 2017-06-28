@@ -32,6 +32,8 @@ ARG REBUILD=1
 RUN set -ex \
     && mkdir /uploads \
     && export DEBIAN_FRONTEND=noninteractive \
+    && mkdir -p /var/cache/apt/archives \
+    && touch /var/cache/apt/archives/lock \
     && apt-get clean \
     && apt-get update -y \
     && apt-get upgrade -y \
