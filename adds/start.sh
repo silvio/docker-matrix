@@ -17,6 +17,8 @@ generate_turn_key() {
 	echo "realm=turn.${SERVER_NAME}" >> "${filepath}"
 	echo "cert=/data/${SERVER_NAME}.tls.crt" >> "${filepath}"
 	echo "pkey=/data/${SERVER_NAME}.tls.key" >> "${filepath}"
+	echo "dh-file=/data/${SERVER_NAME}.tls.dh" >> "${filepath}"
+	echo "cipher-list=\"HIGH\"" >> "${filepath}"
 }
 
 generate_synapse_file() {
