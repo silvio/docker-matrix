@@ -74,14 +74,18 @@ case $OPTION in
 			fi
 		fi
 
-		echo "-=> start riot.im client"
-		(
-			if [ -f /data/vector.im.conf ] || [ -f /data/riot.im.conf ] ; then
-				echo "The riot web client is now handled via silvio/matrix-riot-docker"
-			fi
-		)
 
-		echo "-=> start matrix"
+		if [ -f /data/homeserver.yaml ]; then
+			echo "-=> start matrix"
+			if [ -f /conf/supervisord-matrix.conf.deactivated ]; then
+				mv -f /conf/supervisord-matrix.conf.deactivated /conf/supervisord-matrix.conf
+			fi
+		else
+			if [ -f /conf/supervisord-matrix.conf ]; then
+				mv -f /conf/supervisord-matrix.conf /conf/supervisord-matrix.conf.deactivated
+			fi
+		fi
+
 		groupadd -r -g $MATRIX_GID matrix
 		useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix
 		chown -R $MATRIX_UID:$MATRIX_GID /data
