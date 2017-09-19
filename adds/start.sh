@@ -63,7 +63,7 @@ configure_log_config() {
 
 case $OPTION in
 	"start")
-		if [ -n "${TURN}" ]; then
+		if [ "${TURN}" eq "true" ]; then
 			echo "-=> start turn"
 			if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
 				mv -f /conf/supervisord-turnserver.conf.deactivated /conf/supervisord-turnserver.conf
@@ -75,7 +75,7 @@ case $OPTION in
 		fi
 
 
-		if [ -n "${MATRIX}" ]; then
+		if [ "${MATRIX}" eq "true" ]; then
 			echo "-=> start matrix"
 			if [ -f /conf/supervisord-matrix.conf.deactivated ]; then
 				mv -f /conf/supervisord-matrix.conf.deactivated /conf/supervisord-matrix.conf
