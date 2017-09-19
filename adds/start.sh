@@ -67,6 +67,7 @@ case $OPTION in
 			echo "-=> start turn"
 		else
 			mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
+			rm /conf/supervisord-turnserver.conf
 		fi
 
 
@@ -74,6 +75,7 @@ case $OPTION in
 			echo "-=> start matrix"
 		else
 			mv -f /conf/supervisord-matrix.conf /conf/supervisord-matrix.conf.deactivated
+			rm /conf/supervisord-matrix.conf 
 		fi
 
 		groupadd -r -g $MATRIX_GID matrix
