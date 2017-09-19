@@ -63,27 +63,17 @@ configure_log_config() {
 
 case $OPTION in
 	"start")
-		if [ "${TURN}" eq "true" ]; then
+		if [ "${TURN}" = "true" ]; then
 			echo "-=> start turn"
-			if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
-				mv -f /conf/supervisord-turnserver.conf.deactivated /conf/supervisord-turnserver.conf
-			fi
 		else
-			if [ -f /conf/supervisord-turnserver.conf ]; then
-				mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
-			fi
+			mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
 		fi
 
 
-		if [ "${MATRIX}" eq "true" ]; then
+		if [ "${MATRIX}" = "true" ]; then
 			echo "-=> start matrix"
-			if [ -f /conf/supervisord-matrix.conf.deactivated ]; then
-				mv -f /conf/supervisord-matrix.conf.deactivated /conf/supervisord-matrix.conf
-			fi
 		else
-			if [ -f /conf/supervisord-matrix.conf ]; then
-				mv -f /conf/supervisord-matrix.conf /conf/supervisord-matrix.conf.deactivated
-			fi
+			mv -f /conf/supervisord-matrix.conf /conf/supervisord-matrix.conf.deactivated
 		fi
 
 		groupadd -r -g $MATRIX_GID matrix
