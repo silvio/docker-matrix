@@ -4,4 +4,4 @@ services:
 
 script:
         # only docker build test
-        - docker build -t avhost/docker-matrix .
+        - docker build -t silvio/docker-matrix .
