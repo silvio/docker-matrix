@@ -66,7 +66,6 @@ case $OPTION in
 		if [ "${TURN}" = "true" ]; then
 			echo "-=> start turn"
 		else
-			mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
 			rm /conf/supervisord-turnserver.conf
 		fi
 
@@ -74,7 +73,6 @@ case $OPTION in
 		if [ "${MATRIX}" = "true" ]; then
 			echo "-=> start matrix"
 		else
-			mv -f /conf/supervisord-matrix.conf /conf/supervisord-matrix.conf.deactivated
 			rm /conf/supervisord-matrix.conf 
 		fi
 

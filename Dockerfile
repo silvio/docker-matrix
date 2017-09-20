@@ -1,7 +1,7 @@
 FROM debian:jessie
 
 # Maintainer
-MAINTAINER Andreas Peters <support@aventer.biz>
+MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
 
 # install homerserver template
 COPY adds/start.sh /start.sh
@@ -10,12 +10,6 @@ COPY adds/start.sh /start.sh
 COPY adds/supervisord-matrix.conf /conf/
 COPY adds/supervisord-turnserver.conf /conf/
 COPY adds/supervisord.conf /
-
-# startup configuration
-ENTRYPOINT ["/start.sh"]
-CMD ["start"]
-EXPOSE 8448
-VOLUME ["/data"]
 
 # Git branch to build from
 ARG BV_SYN=master
@@ -107,3 +101,11 @@ RUN set -ex \
     ; \
     apt-get autoremove -y ;\
     rm -rf /var/lib/apt/* /var/cache/apt/*
+
+EXPOSE 8448
+VOLUME ["/data"]
+
+# startup configuration
+ENTRYPOINT ["/start.sh"]
+CMD ["start"]
+
