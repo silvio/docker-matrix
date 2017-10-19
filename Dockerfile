@@ -87,6 +87,8 @@ RUN set -ex \
     && cd / \
     && rm -rf /synapse \
     ; \
+    pip install --upgrade --force "pyopenssl>=0.14" \
+    ; \
     apt-get autoremove -y \
         file \
         gcc \
