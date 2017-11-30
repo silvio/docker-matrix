@@ -6,7 +6,7 @@ VoIP communication server.
 
 The riot.im web client has now his own docker file at [github].
 
-[matrix]: matrix.org
+[matrix]: https://matrix.org
 [github]: https://github.com/silvio/matrix-riot-docker
 
 # Contribution
