@@ -1,3 +1,10 @@
+# Attention
+
+I cannot handle this project anymore due private circumstances. Ping me
+if you want to take over this project. You must be a experienced matrix
+user and you need strong power in docker related tasks.
+
+- - - 
 
 # Introduction
 
@@ -6,7 +13,7 @@ VoIP communication server.
 
 The riot.im web client has now his own docker file at [github].
 
-[matrix]: matrix.org
+[matrix]: https://matrix.org
 [github]: https://github.com/silvio/matrix-riot-docker
 
 # Contribution
