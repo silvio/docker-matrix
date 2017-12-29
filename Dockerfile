@@ -1,4 +1,4 @@
-FROM debian:jessie-slim
+FROM debian:stable-slim
 
 # Maintainer
 MAINTAINER Andreas Peters <support@aventer.biz>
@@ -56,7 +56,7 @@ RUN set -ex \
         libsasl2-dev \
         libsqlite3-dev \
         libssl-dev \
-        libssl1.0.0 \
+        #libssl1.0.0 \
         libtool \
         libxml2 \
         libxml2-dev \
