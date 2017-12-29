@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stable
 
 # Maintainer
 MAINTAINER Andreas Peters <support@aventer.biz>
