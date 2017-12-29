@@ -1,8 +1,8 @@
 # Attention
 
-I cannot handle this project anymore due private circumstances. Ping me
-if you want to take over this project. You must be a experienced matrix
-user and you need strong power in docker related tasks.
+THIS IS A UNOFFICAL FORK OF THE DOCKER MATRIX REPO FROM SILVIO. 
+Because of personal reasons, silvio have no time to maintain it anymore. We ask if we can maintain his repository official, but didnt got a answer just now. We are using matrix byself, thats why we are very interesting to keep it up to date. :-) Fell free to contribute with us. 
+
 
 - - - 
 

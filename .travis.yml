@@ -1,7 +1,22 @@
-
 services:
-        - docker
+  - docker
+
+install:
+  - go get github.com/optiopay/klar
+  - export REPO="avhost/docker-matrix"
+
 
 script:
-        # only docker build test
-        - docker build -t silvio/docker-matrix .
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker run -d --name db arminc/clair-db:latest
+  - docker run -d -p 6060-6061:6060-6061 --link db:postgres --name clair arminc/clair-local-scan:v2.0.1    
+  - docker build -t $REPO:clair .
+  - docker images
+  - docker push $REPO:clair  
+  - CLAIR_ADDR=http://localhost CLAIR_OUTPUT=High CLAIR_THRESHOLD=10 klar $REPO:clair 
+
+after_success:
+  - docker build -t $REPO .
+  - docker push $REPO
+  
+
