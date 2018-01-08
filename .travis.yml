@@ -17,8 +17,8 @@ script:
 
 after_success:
   - docker build -t $REPO .
-  - docker build -t $REPO:$TRAVIS_TAG
+  - docker build -t $REPO:$TRAVIS_BRANCH
   - docker push $REPO
-  - docker push $REPO:$TRAVIS_TAG
+  - docker push $REPO:$TRAVIS_BRANCH
   
 
