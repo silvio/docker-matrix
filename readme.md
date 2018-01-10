@@ -35,20 +35,22 @@ To configure run the image with "generate" as argument. You have to setup the
 server domain and a `/data`-directory. After this you have to edit the
 generated homeserver.yaml file.
 
-To get the things done, "generate" will create a own self-signed certificate.
+Please read the synapse [readme file] about configuration settings.
 
-> This needs to be changed for production usage.
+To get the things done, "generate" will create a own self-signed certificate.
 
 Example:
 
     $ docker run -v /tmp/data:/data --rm -e SERVER_NAME=localhost -e REPORT_STATS=no silviof/docker-matrix generate
+
+[readme file]: https://github.com/matrix-org/synapse/blob/master/README.rst
 
 # Start
 
 For starting you need the port bindings and a mapping for the
 `/data`-directory.
 
-    $ docker run -d -p 8448:8448 -p 3478:3478 -v /tmp/data:/data silviof/docker-matrix start
+    $ docker run -d -p 8448:8448 -p 8008:8008 -p 3478:3478 -v /tmp/data:/data silviof/docker-matrix start
 
 # Port configurations
 
