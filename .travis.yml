@@ -11,14 +11,17 @@ script:
   - docker run -d --name db arminc/clair-db:latest
   - docker run -d -p 6060-6061:6060-6061 --link db:postgres --name clair arminc/clair-local-scan:v2.0.1    
   - docker build -t $REPO:clair .
-  - docker images
   - docker push $REPO:clair  
   - CLAIR_ADDR=http://localhost CLAIR_OUTPUT=High CLAIR_THRESHOLD=10 klar $REPO:clair 
 
 after_success:
-  - docker build -t $REPO .
-  - docker build -t $REPO:$TRAVIS_BRANCH .
-  - docker push $REPO
+  - docker tag $REPO:clair $REPO:latest
+  - docker push $REPO:latest
+  - docker tag $REPO:clair $REPO:$TRAVIS_BRANCH
+  - docker images  
   - docker push $REPO:$TRAVIS_BRANCH
+  - docker tag $REPO:$TRAVIS_BRANCH silvio/docker-matrix:test
+  - docker push silvio/docker-matrix:test
+  
   
 
