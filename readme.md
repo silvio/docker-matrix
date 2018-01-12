@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/AVENTER-UG/docker-matrix.svg?branch=master)](https://travis-ci.org/AVENTER-UG/docker-matrix)
 
-
 ## Docker Hub
 
 [https://hub.docker.com/r/avhost/docker-matrix/tags/](https://hub.docker.com/r/avhost/docker-matrix/tags/)
