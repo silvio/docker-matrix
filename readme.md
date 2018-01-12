@@ -3,14 +3,6 @@
 [![Build Status](https://travis-ci.org/AVENTER-UG/docker-matrix.svg?branch=master)](https://travis-ci.org/AVENTER-UG/docker-matrix)
 
 
-## Attention
-
-THIS IS A UNOFFICAL FORK OF THE DOCKER MATRIX REPO FROM SILVIO. 
-Because of personal reasons, silvio have no time to maintain it anymore. We ask if we can maintain his repository official, but didnt got a answer just now. We are using matrix byself, thats why we are very interesting to keep it up to date. :-) Fell free to contribute with us. 
-
-
-- - - 
-
 ## Introduction
 
 Dockerfile for installation of [matrix] open federated Instant Messaging and
@@ -30,7 +22,7 @@ To support this Dockerimage please pledge via [liberapay].
 
 [liberapay]: https://liberapay.com/AVENTER
 
-Silvio is still the official maintainer. And so long we dont know how he is, please also pledge to him via [bountysource] or
+Silvio is the godfather of this image. So please be nice and pledge for him via [bountysource] or
 [paypal.me/silviofricke]. 
 
 [bountysource]: https://www.bountysource.com
@@ -41,6 +33,9 @@ Silvio is still the official maintainer. And so long we dont know how he is, ple
 To configure run the image with "generate" as argument. You have to setup the
 server domain and a `/data`-directory. After this you have to edit the
 generated homeserver.yaml file.
+
+Please read the synapse [readme file] about configuration settings.
+[readme file]: https://github.com/matrix-org/synapse/blob/master/README.rst
 
 To get the things done, "generate" will create a own self-signed certificate.
 
@@ -55,7 +50,7 @@ Example:
 For starting you need the port bindings and a mapping for the
 `/data`-directory.
 
-    $ docker run -d -p 8448:8448 -p 3478:3478 -v /tmp/data:/data avhost/docker-matrix start
+    $ docker run -d -p 8448:8448 -p 8008:8008 -p 3478:3478 -v /tmp/data:/data avhost/docker-matrix start
 
 ## Port configurations
 
