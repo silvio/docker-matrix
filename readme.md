@@ -3,6 +3,15 @@
 [![Build Status](https://travis-ci.org/AVENTER-UG/docker-matrix.svg?branch=master)](https://travis-ci.org/AVENTER-UG/docker-matrix)
 
 
+## Docker Hub
+
+[https://hub.docker.com/r/avhost/docker-matrix/tags/](https://hub.docker.com/r/avhost/docker-matrix/tags/)
+
+
+## Security
+
+We verify our image automaticly by clair. If you want to see the current security status, please have a look in [travis-ci](https://travis-ci.org/AVENTER-UG/docker-matrix).
+
 ## Introduction
 
 Dockerfile for installation of [matrix] open federated Instant Messaging and
