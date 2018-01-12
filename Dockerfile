@@ -1,7 +1,7 @@
-FROM debian:jessie
+FROM debian:stable-slim
 
 # Maintainer
-MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
+MAINTAINER Andreas Peters <support@aventer.biz>
 
 # install homerserver template
 COPY adds/start.sh /start.sh
@@ -56,7 +56,7 @@ RUN set -ex \
         libsasl2-dev \
         libsqlite3-dev \
         libssl-dev \
-        libssl1.0.0 \
+        #libssl1.0.0 \
         libtool \
         libxml2 \
         libxml2-dev \
