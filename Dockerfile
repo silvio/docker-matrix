@@ -1,7 +1,7 @@
 FROM debian:stretch-slim
 
 # Maintainer
-MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
+MAINTAINER Andreas Peters <support@aventer.biz>
 
 # install homerserver template
 COPY adds/start.sh /start.sh
