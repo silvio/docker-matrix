@@ -80,6 +80,7 @@ RUN set -ex \
         zlib1g \
     ; \
     pip install --upgrade pip ;\
+    pip install --upgrade wheel ;\
     pip install --upgrade python-ldap ;\
     pip install --upgrade pyopenssl ;\
     pip install --upgrade enum34 ;\
