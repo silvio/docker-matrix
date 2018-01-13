@@ -1,4 +1,4 @@
-FROM debian:stable-slim
+FROM debian:stretch-slim
 
 # Maintainer
 MAINTAINER Andreas Peters <support@aventer.biz>
@@ -35,46 +35,52 @@ RUN set -ex \
     && mkdir -p /var/cache/apt/archives \
     && touch /var/cache/apt/archives/lock \
     && apt-get clean \
-    && apt-get update -y \
+    && apt-get update -y -q --fix-missing\
     && apt-get upgrade -y \
-    && apt-get install -y \
-        bash \
-        coreutils \
-        coturn \
+    && buildDeps=' \
         file \
         gcc \
         git \
-        libevent-2.0-5 \
         libevent-dev \
         libffi-dev \
-        libffi6 \
         libgnutls28-dev \
-        libjpeg62-turbo \
         libjpeg62-turbo-dev \
-        libldap-2.4-2 \
         libldap2-dev \
         libsasl2-dev \
         libsqlite3-dev \
         libssl-dev \
-        #libssl1.0.0 \
         libtool \
-        libxml2 \
         libxml2-dev \
         libxslt1-dev \
-        libxslt1.1 \
         linux-headers-amd64 \
         make \
+        python-dev \
+        python-setuptools \
+        zlib1g-dev \
+    ' \
+    && apt-get install -y --no-install-recommends \
+        $buildDeps \
+        bash \
+        coreutils \
+        coturn \
+        libevent-2.0-5 \
+        libffi6 \
+        libjpeg62-turbo \
+        libldap-2.4-2 \
+        libssl1.1 \
+        libtool \
+        libxml2 \
+        libxslt1.1 \
         pwgen \
         python \
-        python-dev \
         python-pip \
         python-psycopg2 \
         python-virtualenv \
         sqlite \
         zlib1g \
-        zlib1g-dev \
     ; \
     pip install --upgrade pip ;\
+    pip install --upgrade wheel ;\
     pip install --upgrade python-ldap ;\
     pip install --upgrade pyopenssl ;\
     pip install --upgrade enum34 ;\
@@ -90,23 +96,6 @@ RUN set -ex \
     && cd / \
     && rm -rf /synapse \
     ; \
-    apt-get autoremove -y \
-        file \
-        gcc \
-        git \
-        libevent-dev \
-        libffi-dev \
-        libjpeg62-turbo-dev \
-        libldap2-dev \
-        libsqlite3-dev \
-        libssl-dev \
-        libtool \
-        libxml2-dev \
-        libxslt1-dev \
-        linux-headers-amd64 \
-        make \
-        python-dev \
-        zlib1g-dev \
-    ; \
+    apt-get autoremove -y $buildDeps ; \
     apt-get autoremove -y ;\
     rm -rf /var/lib/apt/* /var/cache/apt/*
