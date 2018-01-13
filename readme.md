@@ -45,9 +45,8 @@ generated homeserver.yaml file.
 Please read the synapse [readme file] about configuration settings.
 [readme file]: https://github.com/matrix-org/synapse/blob/master/README.rst
 
-To get the things done, "generate" will create a own self-signed certificate.
-
-> This needs to be changed for production usage.
+To get the things done, "generate" will create a self-signed certificate, which
+can be used for federation.
 
 Example:
 
