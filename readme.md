@@ -43,6 +43,7 @@ server domain and a `/data`-directory. After this you have to edit the
 generated homeserver.yaml file.
 
 Please read the synapse [readme file] about configuration settings.
+
 [readme file]: https://github.com/matrix-org/synapse/blob/master/README.rst
 
 To get the things done, "generate" will create a self-signed certificate, which
