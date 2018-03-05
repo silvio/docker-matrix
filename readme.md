@@ -42,7 +42,9 @@ To configure run the image with "generate" as argument. You have to setup the
 server domain and a `/data`-directory. After this you have to edit the
 generated homeserver.yaml file.
 
-Please read the synapse [readme file] about configuration settings.
+Please read the synapse [readme file] about configuration settings, 
+there is also an [example setup](Example.configs.md) available to read.
+
 [readme file]: https://github.com/matrix-org/synapse/blob/master/README.rst
 
 To get the things done, "generate" will create a self-signed certificate, which
