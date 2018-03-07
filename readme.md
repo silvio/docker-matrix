@@ -7,9 +7,19 @@
 [https://hub.docker.com/r/avhost/docker-matrix/tags/](https://hub.docker.com/r/avhost/docker-matrix/tags/)
 
 
+## Notice
+
+Please make sure to use our tagged docker images and not the latest one. Specifically in a production environment you should never use :latest as that the version can be broken.
+
+## Creating Issues and Pull request
+
+We are working with the repository at "https://github.com/AVENTER-UG/docker-matrix". If you want to open issues or create pull request, please use that repository. 
+
+
 ## Security
 
-We verify our image automaticly by clair. If you want to see the current security status, please have a look in [travis-ci](https://travis-ci.org/AVENTER-UG/docker-matrix).
+We verify the docker layers of our image automaticly with clair. If you want to see the current security status, please have a look in [travis-ci](https://travis-ci.org/AVENTER-UG/docker-matrix). Matrix is not a part of the vulnerabilitie scan, which  means clair will only find vulnerabilities that are part of the OS (operating system). You will have to decide if they will have a impact for you or not. 
+
 
 ## Introduction
 
@@ -42,7 +52,8 @@ To configure run the image with "generate" as argument. You have to setup the
 server domain and a `/data`-directory. After this you have to edit the
 generated homeserver.yaml file.
 
-Please read the synapse [readme file] about configuration settings.
+Please read the synapse [readme file] about configuration settings, 
+there is also an [example setup](Example.configs.md) available to read.
 
 [readme file]: https://github.com/matrix-org/synapse/blob/master/README.rst
 
@@ -51,14 +62,14 @@ can be used for federation.
 
 Example:
 
-    $ docker run -v /tmp/data:/data --rm -e SERVER_NAME=localhost -e REPORT_STATS=no avhost/docker-matrix generate
+    $ docker run -v /tmp/data:/data --rm -e SERVER_NAME=localhost -e REPORT_STATS=no avhost/docker-matrix:<VERSION> generate
 
 ## Start
 
 For starting you need the port bindings and a mapping for the
 `/data`-directory.
 
-    $ docker run -d -p 8448:8448 -p 8008:8008 -p 3478:3478 -v /tmp/data:/data avhost/docker-matrix start
+    $ docker run -d -p 8448:8448 -p 8008:8008 -p 3478:3478 -v /tmp/data:/data avhost/docker-matrix:<VERSION> start
 
 ## Port configurations
 
@@ -89,7 +100,7 @@ In case you don't want to expose the whole port range on udp you can change the 
 To get the installed synapse version you can run the image with `version` as
 argument or look at the container via cat.
 
-    $ docker run -ti --rm avhost/docker-matrix version
+    $ docker run -ti --rm avhost/docker-matrix:<VERSION> version
     -=> Matrix Version
     synapse: master (7e0a1683e639c18bd973f825b91c908966179c15)
     coturn:  master (88bd6268d8f4cdfdfaffe4f5029d489564270dd6)
@@ -126,7 +137,7 @@ argument.
 
 
 ```
-$ docker run --rm -ti -v /tmp/data:/data avhost/docker-matrix diff
+$ docker run --rm -ti -v /tmp/data:/data avhost/docker-matrix:<VERSION> diff
 [...]
 +# ldap_config:
 +#   enabled: true
