@@ -20,6 +20,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
+ARG TAG_SYN=v0.26.1
 # https://github.com/python-pillow/Pillow/issues/1763
 ENV LIBRARY_PATH=/lib:/usr/lib
 
@@ -90,6 +91,7 @@ RUN set -ex \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
+    git checkout tag/${TAG_SYN} \
     && pip install --upgrade --process-dependency-links . \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
