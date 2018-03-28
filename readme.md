@@ -1,11 +1,7 @@
 # Docker image for Matrix 
 
-[![Build Status](https://travis-ci.org/AVENTER-UG/docker-matrix.svg?branch=master)](https://travis-ci.org/AVENTER-UG/docker-matrix)
-
-## Docker Hub
-
-[https://hub.docker.com/r/avhost/docker-matrix/tags/](https://hub.docker.com/r/avhost/docker-matrix/tags/)
-
+- [Matrix Chat](https://matrix.aventer.biz/#/room/#dockermatrix:matrix.aventer.biz)
+- [Docker Hub](https://hub.docker.com/r/avhost/docker-matrix/tags)
 
 ## Notice
 
@@ -13,13 +9,11 @@ Please make sure to use our tagged docker images and not the latest one. Specifi
 
 ## Creating Issues and Pull request
 
-We are working with the repository at "https://github.com/AVENTER-UG/docker-matrix". If you want to open issues or create pull request, please use that repository. 
-
+We are working with the repository at "https://github.com/AVENTER-UG/docker-matrix". If you want to open issues or create pull request, please use that repository.
 
 ## Security
 
-We verify the docker layers of our image automaticly with clair. If you want to see the current security status, please have a look in [travis-ci](https://travis-ci.org/AVENTER-UG/docker-matrix). Matrix is not a part of the vulnerabilitie scan, which  means clair will only find vulnerabilities that are part of the OS (operating system). You will have to decide if they will have a impact for you or not. 
-
+We verify the docker layers of our image automaticly with clair. Matrix is not a part of the vulnerabilitie scan, which  means clair will only find vulnerabilities that are part of the OS (operating system).
 
 ## Introduction
 
