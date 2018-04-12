@@ -87,6 +87,7 @@ RUN set -ex \
     pip install --upgrade enum34 ;\
     pip install --upgrade ipaddress ;\
     pip install --upgrade lxml ;\
+    pip install --upgrade canonicaljson ;\
     pip install --upgrade supervisor \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
