@@ -20,7 +20,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v0.27.3
+ARG TAG_SYN=v0.27.4
 # https://github.com/python-pillow/Pillow/issues/1763
 ENV LIBRARY_PATH=/lib:/usr/lib
 
@@ -87,7 +87,6 @@ RUN set -ex \
     pip install --upgrade enum34 ;\
     pip install --upgrade ipaddress ;\
     pip install --upgrade lxml ;\
-    pip install --upgrade canonicaljson ;\
     pip install --upgrade supervisor \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
