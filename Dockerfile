@@ -80,7 +80,6 @@ RUN set -ex \
         sqlite \
         zlib1g \
     ; \
-    pip install --upgrade pip ;\
     pip install --upgrade wheel ;\
     pip install --upgrade python-ldap ;\
     pip install --upgrade pyopenssl ;\
