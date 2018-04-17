@@ -1,4 +1,4 @@
-# Docker image for Matrix 
+# Docker image for Matrix
 
 - [Matrix Chat](https://matrix.aventer.biz/#/room/#dockermatrix:matrix.aventer.biz)
 - [Docker Hub](https://hub.docker.com/r/avhost/docker-matrix/tags)
