@@ -24,17 +24,17 @@ Once that's done we can generate the config files and self signed certificate:
 
 At this point it's possible to edit the configuration file homeserver.yaml and turnserver.conf, located in this example in `/opt/synapse`  
 In homeserver.yaml we may want to enable registration and [recaptcha](https://github.com/matrix-org/synapse/blob/master/docs/CAPTCHA_SETUP.rst)  
-In turnserver.conf we have to set the external ip and we can change the TURN portrange (here the default is used):  
+In turnserver.conf we have to set the external ip and we can change the TURN portrange. The default TURN port range is `49152-65535` but because docker doesn't like publishing large port ranges we'll decrease the portrange here. If you want to keep using the default port range more information can be found [here](https://success.docker.com/article/docker-compose-and-docker-run-hang-when-binding-a-large-port-range).  
 
     `external-ip=203.0.113.0`  
     `min-port=49152`  
-    `max-port=65535`
+    `max-port=49300`
 
 The next step is to forward the relevant ports in the router to the server (note that docker by default writes iptables rules to open the ports needed):
 
 `443, 8448` TCP for the matrix server (443 for clients 8448 for federation)  
 `3478, 5349` TCP/UDP for STUN  
-`49152-65535` TCP/UDP for TURN  
+`49152-49300` TCP/UDP for TURN  
 
 We now need to configure the webserver reverse proxy. This is done to allow clients to connect on the default 443 port and to use a valid certificate (for instance [letsencrypt](https://letsencrypt.org/docs/)).  
 For more details on reverse proxy look at the documentation for the webserver of choice. Here we give an example config for apache2:  
@@ -73,7 +73,7 @@ Once the config is created we'll need to enable the site:
 `a2ensite matrix.example.com`
 
 At this point we're ready to start the server:  
-`docker run --name=matrix -d --restart=always -p 8448:8448 -p 8008:8008 -p 3478:3478 -p 3478:3478/udp -p 5349:5349/udp -p 5349:5349 -p 49152-65535:49152-65535/udp -p 49152-65535:49152-65535 -v /opt/synapse:/data avhost/docker-matrix:v0.26.0 start`
+`docker run --name=matrix -d --restart=always -p 8448:8448 -p 8008:8008 -p 3478:3478 -p 3478:3478/udp -p 5349:5349/udp -p 5349:5349 -p 49152-49300:49152-49300/udp -p 49152-49300:49152-49300 -v /opt/synapse:/data avhost/docker-matrix:v0.26.0 start`
 
 After the container successfully started and the reverse proxy is configured we should be able to connect to the server using a matrix client and register a user (if that was enabled in the config).
 
