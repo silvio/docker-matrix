@@ -21,8 +21,6 @@ VOLUME ["/data"]
 ARG BV_SYN=master
 ARG BV_TUR=master
 ARG TAG_SYN=v0.28.1
-# https://github.com/python-pillow/Pillow/issues/1763
-ENV LIBRARY_PATH=/lib:/usr/lib
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
