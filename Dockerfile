@@ -13,7 +13,7 @@ COPY adds/supervisord.conf /
 
 # startup configuration
 ENTRYPOINT ["/start.sh"]
-CMD ["start"]
+CMD ["autostart"]
 EXPOSE 8448
 VOLUME ["/data"]
 

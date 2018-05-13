@@ -62,7 +62,35 @@ configure_log_config() {
 }
 
 case $OPTION in
-	"start")
+    	"start")
+		if [ -f /data/turnserver.conf ]; then
+			echo "-=> start turn"
+			if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
+				mv -f /conf/supervisord-turnserver.conf.deactivated /conf/supervisord-turnserver.conf
+			fi
+		else
+			if [ -f /conf/supervisord-turnserver.conf ]; then
+				mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
+			fi
+		fi
+
+		(
+			if [ -f /data/vector.im.conf ] || [ -f /data/riot.im.conf ] ; then
+				echo "The riot web client is now handled via silvio/matrix-riot-docker"
+			fi
+		)
+
+		echo "-=> start matrix"
+		groupadd -r -g $MATRIX_GID matrix
+		useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix
+		chown $MATRIX_UID:$MATRIX_GID /data/*
+		chown -R $MATRIX_UID:$MATRIX_GID /data &
+		chown -R $MATRIX_UID:$MATRIX_GID /uploads &
+		chmod a+rwx /run
+		exec supervisord -c /supervisord.conf
+		;;
+
+	"autostart")
 		if [ -f /data/homeserver.yaml ]; then
             if [ -f /data/turnserver.conf ]; then
                 echo "-=> start turn"
@@ -114,7 +142,6 @@ case $OPTION in
             echo "-=> you have to review the generated configuration file homeserver.yaml"
         fi
         ;;
-		
 
 	"stop")
 		echo "-=> stop matrix"
