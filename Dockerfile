@@ -75,6 +75,7 @@ RUN set -ex \
         python-pip \
         python-psycopg2 \
         python-virtualenv \
+	python-jinja2 \
         sqlite \
         zlib1g \
     ; \
