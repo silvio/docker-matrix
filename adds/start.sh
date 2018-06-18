@@ -62,7 +62,7 @@ configure_log_config() {
 }
 
 case $OPTION in
-	"start")
+    	"start")
 		if [ -f /data/turnserver.conf ]; then
 			echo "-=> start turn"
 			if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
@@ -74,7 +74,6 @@ case $OPTION in
 			fi
 		fi
 
-		echo "-=> start riot.im client"
 		(
 			if [ -f /data/vector.im.conf ] || [ -f /data/riot.im.conf ] ; then
 				echo "The riot web client is now handled via silvio/matrix-riot-docker"
@@ -84,11 +83,65 @@ case $OPTION in
 		echo "-=> start matrix"
 		groupadd -r -g $MATRIX_GID matrix
 		useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix
-		chown -R $MATRIX_UID:$MATRIX_GID /data
-		chown -R $MATRIX_UID:$MATRIX_GID /uploads
+		chown $MATRIX_UID:$MATRIX_GID /data/*
+		chown -R $MATRIX_UID:$MATRIX_GID /data &
+		chown -R $MATRIX_UID:$MATRIX_GID /uploads &
 		chmod a+rwx /run
 		exec supervisord -c /supervisord.conf
 		;;
+
+	"autostart")
+		if [ -f /data/homeserver.yaml ]; then
+            if [ -f /data/turnserver.conf ]; then
+                echo "-=> start turn"
+                if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
+                    mv -f /conf/supervisord-turnserver.conf.deactivated /conf/supervisord-turnserver.conf
+                fi
+            else
+                if [ -f /conf/supervisord-turnserver.conf ]; then
+                    mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
+                fi
+            fi
+            (
+                if [ -f /data/vector.im.conf ] || [ -f /data/riot.im.conf ] ; then
+                    echo "The riot web client is now handled via silvio/matrix-riot-docker"
+                fi
+            )
+            echo "-=> start matrix"
+            groupadd -r -g $MATRIX_GID matrix
+            useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix
+            chown $MATRIX_UID:$MATRIX_GID /data/*
+            chown -R $MATRIX_UID:$MATRIX_GID /data &
+            chown -R $MATRIX_UID:$MATRIX_GID /uploads &
+            chmod a+rwx /run
+            exec supervisord -c /supervisord.conf
+        else
+            breakup="0"
+            [[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
+            [[ -z "${REPORT_STATS}" ]] && echo "STOP! environment variable REPORT_STATS must be set to 'no' or 'yes'" && breakup="1"
+            [[ "${REPORT_STATS}" != "yes" ]] && [[ "${REPORT_STATS}" != "no" ]] && \
+                echo "STOP! REPORT_STATS needs to be 'no' or 'yes'" && breakup="1"
+
+            [[ "${breakup}" == "1" ]] && exit 1
+
+            echo "-=> generate turn config"
+            turnkey=$(pwgen -s 64 1)
+            generate_turn_key $turnkey /data/turnserver.conf
+
+            echo "-=> generate synapse config"
+            generate_synapse_file /data/homeserver.tmp
+            echo "-=> configure some settings in homeserver.yaml"
+            configure_homeserver_yaml $turnkey /data/homeserver.tmp
+
+            mv /data/homeserver.tmp /data/homeserver.yaml
+
+            echo "-=> configure some settings in ${SERVER_NAME}.log.config"
+            configure_log_config
+
+            echo ""
+            echo "-=> you have to review the generated configuration file homeserver.yaml"
+        fi
+        ;;
 
 	"stop")
 		echo "-=> stop matrix"
