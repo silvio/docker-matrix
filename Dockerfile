@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM python:3.7-stretch
 
 # Maintainer
 MAINTAINER Andreas Peters <support@aventer.biz>
@@ -53,8 +53,6 @@ RUN set -ex \
         libxslt1-dev \
         linux-headers-amd64 \
         make \
-        python-dev \
-        python-setuptools \
         zlib1g-dev \
     ' \
     && apt-get install -y --no-install-recommends \
@@ -71,25 +69,18 @@ RUN set -ex \
         libxml2 \
         libxslt1.1 \
         pwgen \
-        python \
-        python-pip \
-        python-psycopg2 \
-        python-virtualenv \
-	python-jinja2 \
         sqlite \
         zlib1g \
     ; \
-    python -m pip install --upgrade pip ;\
-    python -m pip install --upgrade wheel ;\
-    python -m pip install --upgrade python-ldap ;\
-    python -m pip install --upgrade lxml ;\
-    python -m pip install --upgrade supervisor \
+    python3 -m pip install --upgrade wheel ;\
+    python3 -m pip install --upgrade python-ldap ;\
+    python3 -m pip install --upgrade lxml \
     ; \
-    git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
+    git clone --branch hawkowl/py3-3 --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
-    git checkout tags/$TAG_SYN \
+    git checkout tags/hawkowl/py3-3 \
     && python -m pip install --upgrade --process-dependency-links . \
-    && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
+    && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse hawkowl/py3-3 | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
     && rm -rf /synapse \
