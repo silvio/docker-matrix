@@ -20,7 +20,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v0.33.3
+ARG TAG_SYN=v0.33.3.1
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
@@ -79,18 +79,16 @@ RUN set -ex \
         sqlite \
         zlib1g \
     ; \
-    pip install --upgrade wheel ;\
-    pip install --upgrade python-ldap ;\
-    pip install --upgrade pyopenssl ;\
-    pip install --upgrade enum34 ;\
-    pip install --upgrade ipaddress ;\
-    pip install --upgrade lxml ;\
-    pip install --upgrade supervisor \
+    python -m pip install --upgrade pip ;\
+    python -m pip install --upgrade wheel ;\
+    python -m pip install --upgrade python-ldap ;\
+    python -m pip install --upgrade lxml ;\
+    python -m pip install --upgrade supervisor \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
     git checkout tags/$TAG_SYN \
-    && pip install --upgrade --process-dependency-links . \
+    && python -m pip install --upgrade --process-dependency-links . \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
