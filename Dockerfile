@@ -1,4 +1,4 @@
-FROM python:3.7-stretch
+FROM python:3.6-stretch
 
 # Maintainer
 MAINTAINER Andreas Peters <support@aventer.biz>
@@ -78,7 +78,7 @@ RUN set -ex \
     ; \
     git clone --branch hawkowl/py3-3 --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
-    git checkout tags/hawkowl/py3-3 \
+    && git checkout hawkowl/py3-3 \
     && python -m pip install --upgrade --process-dependency-links . \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse hawkowl/py3-3 | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
