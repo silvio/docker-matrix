@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:9.5-slim
 
 # Maintainer
 MAINTAINER Andreas Peters <support@aventer.biz>
