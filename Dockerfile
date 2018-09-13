@@ -6,11 +6,6 @@ MAINTAINER Andreas Peters <support@aventer.biz>
 # install homerserver template
 COPY adds/start.sh /start.sh
 
-# add supervisor configs
-COPY adds/supervisord-matrix.conf /conf/
-COPY adds/supervisord-turnserver.conf /conf/
-COPY adds/supervisord.conf /
-
 # startup configuration
 ENTRYPOINT ["/start.sh"]
 CMD ["autostart"]
