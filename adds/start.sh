@@ -87,7 +87,7 @@ case $OPTION in
 		chown -R $MATRIX_UID:$MATRIX_GID /data &
 		chown -R $MATRIX_UID:$MATRIX_GID /uploads &
 		chmod a+rwx /run
-		exec su -c "python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml"  matrix & su -c "/usr/bin/turnserver -c /data/turnserver.conf"  matrix
+		exec su -c "python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf"  matrix
 		;;
 
 	"autostart")
@@ -114,7 +114,7 @@ case $OPTION in
             chown -R $MATRIX_UID:$MATRIX_GID /data &
             chown -R $MATRIX_UID:$MATRIX_GID /uploads &
             chmod a+rwx /run
-            exec su -c "python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml" matrix & su -c " /usr/bin/turnserver -c /data/turnserver.conf" matrix
+            exec su -c "python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf" matrix
         else
             breakup="0"
             [[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
