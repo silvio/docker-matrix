@@ -18,9 +18,9 @@ EXPOSE 8448
 VOLUME ["/data"]
 
 # Git branch to build from
-ARG BV_SYN=master
+ARG BV_SYN=develop
 ARG BV_TUR=master
-ARG TAG_SYN=v0.33.3
+ARG TAG_SYN=v0.33.4
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
@@ -76,11 +76,11 @@ RUN set -ex \
     python3 -m pip install --upgrade python-ldap ;\
     python3 -m pip install --upgrade lxml \
     ; \
-    git clone --branch hawkowl/py3-3 --depth 1 https://github.com/matrix-org/synapse.git \
+    git clone --branch develop --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
-    && git checkout hawkowl/py3-3 \
+    && git checkout develop \
     && python -m pip install --upgrade --process-dependency-links . \
-    && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse hawkowl/py3-3 | cut -f 1) \
+    && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse develop | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
     && rm -rf /synapse \
