@@ -13,9 +13,9 @@ EXPOSE 8448
 VOLUME ["/data"]
 
 # Git branch to build from
-ARG BV_SYN=develop
+ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v0.33.4
+ARG TAG_SYN=v0.33.5.1
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
@@ -67,15 +67,15 @@ RUN set -ex \
         sqlite \
         zlib1g \
     ; \
-    python3 -m pip install --upgrade wheel ;\
-    python3 -m pip install --upgrade python-ldap ;\
-    python3 -m pip install --upgrade lxml \
+    python -m pip install --upgrade wheel ;\
+    python -m pip install --upgrade python-ldap ;\
+    python -m pip install --upgrade lxml \
     ; \
-    git clone --branch develop --depth 1 https://github.com/matrix-org/synapse.git \
+    git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
-    && git checkout develop \
+    git checkout tags/$TAG_SYN \
     && python -m pip install --upgrade --process-dependency-links . \
-    && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse develop | cut -f 1) \
+    && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
     && rm -rf /synapse \

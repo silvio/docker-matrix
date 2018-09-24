@@ -24,7 +24,7 @@ generate_turn_key() {
 generate_synapse_file() {
 	local filepath="${1}"
 
-	python3 -m synapse.app.homeserver \
+	python -m synapse.app.homeserver \
 	       --config-path "${filepath}" \
 	       --generate-config \
 	       --report-stats ${REPORT_STATS} \
@@ -87,20 +87,14 @@ case $OPTION in
 		chown -R $MATRIX_UID:$MATRIX_GID /data &
 		chown -R $MATRIX_UID:$MATRIX_GID /uploads &
 		chmod a+rwx /run
-		exec su -c "python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf"  matrix
+        exec su -c "python -m synapse.app.homeserver --config-path /data/homeserver.yaml" matrix &
+        exec su -c "/usr/bin/turnserver -c /data/turnserver.conf" matrix
 		;;
 
 	"autostart")
 		if [ -f /data/homeserver.yaml ]; then
             if [ -f /data/turnserver.conf ]; then
                 echo "-=> start turn"
-                if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
-                    mv -f /conf/supervisord-turnserver.conf.deactivated /conf/supervisord-turnserver.conf
-                fi
-            else
-                if [ -f /conf/supervisord-turnserver.conf ]; then
-                    mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
-                fi
             fi
             (
                 if [ -f /data/vector.im.conf ] || [ -f /data/riot.im.conf ] ; then
@@ -114,7 +108,8 @@ case $OPTION in
             chown -R $MATRIX_UID:$MATRIX_GID /data &
             chown -R $MATRIX_UID:$MATRIX_GID /uploads &
             chmod a+rwx /run
-            exec su -c "python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf" matrix
+            exec su -c "python -m synapse.app.homeserver --config-path /data/homeserver.yaml" matrix &
+            exec su -c "/usr/bin/turnserver -c /data/turnserver.conf" matrix
         else
             breakup="0"
             [[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
