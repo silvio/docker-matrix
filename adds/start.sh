@@ -24,7 +24,7 @@ generate_turn_key() {
 generate_synapse_file() {
 	local filepath="${1}"
 
-	python -m synapse.app.homeserver \
+	python synapse.app.homeserver \
 	       --config-path "${filepath}" \
 	       --generate-config \
 	       --report-stats ${REPORT_STATS} \
@@ -87,8 +87,7 @@ case $OPTION in
 		chown -R $MATRIX_UID:$MATRIX_GID /data &
 		chown -R $MATRIX_UID:$MATRIX_GID /uploads &
 		chmod a+rwx /run
-        exec su -c "python -m synapse.app.homeserver --config-path /data/homeserver.yaml" matrix &
-        exec su -c "/usr/bin/turnserver -c /data/turnserver.conf" matrix
+        	exec python -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf
 		;;
 
 	"autostart")
@@ -108,8 +107,7 @@ case $OPTION in
             chown -R $MATRIX_UID:$MATRIX_GID /data &
             chown -R $MATRIX_UID:$MATRIX_GID /uploads &
             chmod a+rwx /run
-            exec su -c "python -m synapse.app.homeserver --config-path /data/homeserver.yaml" matrix &
-            exec su -c "/usr/bin/turnserver -c /data/turnserver.conf" matrix
+	    exec python -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf
         else
             breakup="0"
             [[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
