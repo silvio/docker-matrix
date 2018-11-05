@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM debian:9.5-slim
 
 # Maintainer
 MAINTAINER Andreas Peters <support@aventer.biz>
@@ -20,7 +20,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v0.33.3
+ARG TAG_SYN=v0.33.8
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
@@ -62,10 +62,8 @@ RUN set -ex \
         bash \
         coreutils \
         coturn \
-        libevent-2.0-5 \
         libffi6 \
         libjpeg62-turbo \
-        libldap-2.4-2 \
         libssl1.1 \
         libtool \
         libxml2 \
@@ -75,14 +73,16 @@ RUN set -ex \
         python-pip \
         python-psycopg2 \
         python-virtualenv \
-	python-jinja2 \
+	    python-jinja2 \
         sqlite \
         zlib1g \
+        libjemalloc1 \
     ; \
     python -m pip install --upgrade pip ;\
     python -m pip install --upgrade wheel ;\
     python -m pip install --upgrade python-ldap ;\
     python -m pip install --upgrade lxml ;\
+    python -m pip install --upgrade twisted ;\
     python -m pip install --upgrade supervisor \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
@@ -97,3 +97,5 @@ RUN set -ex \
     apt-get autoremove -y $buildDeps ; \
     apt-get autoremove -y ;\
     rm -rf /var/lib/apt/* /var/cache/apt/*
+    
+ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.1"
