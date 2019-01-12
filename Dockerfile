@@ -68,6 +68,7 @@ RUN set -ex \
         zlib1g \
     ; \
     pip install --upgrade wheel ;\
+    pip install --upgrade psycopg2;\
     pip install --upgrade python-ldap ;\
     pip install --upgrade lxml \
     ; \
