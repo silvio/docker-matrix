@@ -88,7 +88,7 @@ RUN set -ex \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
     git checkout tags/$TAG_SYN \
-    && python -m pip install --upgrade --process-dependency-links . \
+    && python -m pip install --upgrade .[all] \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
