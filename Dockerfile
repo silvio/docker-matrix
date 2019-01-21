@@ -83,7 +83,8 @@ RUN set -ex \
     python -m pip install --upgrade lxml ;\
     python -m pip install --upgrade twisted ;\
     python -m pip install --upgrade --force "Jinja2>=2.9" ;\
-    python -m pip install --upgrade supervisor \
+    python -m pip install --upgrade supervisor ;\
+    python -m pip install --upgrade bleach \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
