@@ -20,7 +20,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v0.34.1.1
+ARG TAG_SYN=v0.99.0
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
