@@ -20,7 +20,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v0.34.0
+ARG TAG_SYN=v0.99.1.1
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
@@ -82,12 +82,14 @@ RUN set -ex \
     python -m pip install --upgrade python-ldap ;\
     python -m pip install --upgrade lxml ;\
     python -m pip install --upgrade twisted ;\
-    python -m pip install --upgrade supervisor \
+    python -m pip install --upgrade --force "Jinja2>=2.9" ;\
+    python -m pip install --upgrade supervisor ;\
+    python -m pip install --upgrade bleach \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
     git checkout tags/$TAG_SYN \
-    && python -m pip install --upgrade --process-dependency-links . \
+    && python -m pip install --upgrade .[all] \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
