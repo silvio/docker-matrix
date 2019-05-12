@@ -20,7 +20,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v0.33.8
+ARG TAG_SYN=v0.99.3.2
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
@@ -73,22 +73,23 @@ RUN set -ex \
         python-pip \
         python-psycopg2 \
         python-virtualenv \
-	    python-jinja2 \
+	python-jinja2 \
         sqlite \
         zlib1g \
-        libjemalloc1 \
     ; \
     python -m pip install --upgrade pip ;\
     python -m pip install --upgrade wheel ;\
     python -m pip install --upgrade python-ldap ;\
     python -m pip install --upgrade lxml ;\
     python -m pip install --upgrade twisted ;\
-    python -m pip install --upgrade supervisor \
+    python -m pip install --upgrade --force "Jinja2>=2.9" ;\
+    python -m pip install --upgrade supervisor ;\
+    python -m pip install --upgrade bleach \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
     git checkout tags/$TAG_SYN \
-    && python -m pip install --upgrade --process-dependency-links . \
+    && python -m pip install --upgrade .[all] \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
@@ -97,5 +98,3 @@ RUN set -ex \
     apt-get autoremove -y $buildDeps ; \
     apt-get autoremove -y ;\
     rm -rf /var/lib/apt/* /var/cache/apt/*
-    
-ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.1"
