@@ -58,10 +58,8 @@ RUN set -ex \
         bash \
         coreutils \
         coturn \
-        libevent-2.0-5 \
         libffi6 \
         libjpeg62-turbo \
-        libldap-2.4-2 \
         libssl1.1 \
         libtool \
         libxml2 \
