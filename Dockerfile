@@ -1,4 +1,4 @@
-FROM python:3.6-stretch
+FROM debian:9.5-slim
 
 # Maintainer
 MAINTAINER Andreas Peters <support@aventer.biz>
@@ -48,7 +48,10 @@ RUN set -ex \
         libxslt1-dev \
         linux-headers-amd64 \
         make \
-        zlib1g-dev \
+        zlib1g-dev \ 
+        python3-dev \
+        python3-setuptools \
+        libpq-dev \
     ' \
     && apt-get install -y --no-install-recommends \
         $buildDeps \
@@ -64,13 +67,16 @@ RUN set -ex \
         libxml2 \
         libxslt1.1 \
         pwgen \
+        python3 \
+        python3-pip \
+        python3-jinja2 \
         sqlite \
         zlib1g \
     ; \
-    pip install --upgrade wheel ;\
-    pip install --upgrade psycopg2;\
-    pip install --upgrade python-ldap ;\
-    pip install --upgrade lxml \
+    pip3 install --upgrade wheel ;\
+    pip3 install --upgrade psycopg2;\
+    pip3 install --upgrade python-ldap ;\
+    pip3 install --upgrade lxml \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
