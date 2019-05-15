@@ -81,12 +81,6 @@ case $OPTION in
 		)
 
 		echo "-=> start matrix"
-		groupadd -r -g $MATRIX_GID matrix
-		useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix
-		chown $MATRIX_UID:$MATRIX_GID /data/*
-		chown -R $MATRIX_UID:$MATRIX_GID /data &
-		chown -R $MATRIX_UID:$MATRIX_GID /uploads &
-		chmod a+rwx /run
         	exec python -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf
 		;;
 
@@ -101,12 +95,6 @@ case $OPTION in
                 fi
             )
             echo "-=> start matrix"
-            groupadd -r -g $MATRIX_GID matrix
-            useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix
-            chown $MATRIX_UID:$MATRIX_GID /data/*
-            chown -R $MATRIX_UID:$MATRIX_GID /data &
-            chown -R $MATRIX_UID:$MATRIX_GID /uploads &
-            chmod a+rwx /run
 	    exec python -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf
         else
             breakup="0"
