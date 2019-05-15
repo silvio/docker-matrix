@@ -71,7 +71,6 @@ RUN set -ex \
         pwgen \
         python \
         python-pip \
-        python-psycopg2 \
         python-virtualenv \
 	python-jinja2 \
         sqlite \
@@ -84,7 +83,8 @@ RUN set -ex \
     python -m pip install --upgrade twisted ;\
     python -m pip install --upgrade --force "Jinja2>=2.9" ;\
     python -m pip install --upgrade supervisor ;\
-    python -m pip install --upgrade bleach \
+    python -m pip install --upgrade bleach ;\
+    pythom -m pip install --upgrade psycopg2 \
     ; \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
