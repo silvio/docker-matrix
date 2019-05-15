@@ -48,7 +48,7 @@ RUN set -ex \
         libxslt1-dev \
         linux-headers-amd64 \
         make \
-        zlib1g-dev \ 
+        zlib1g-dev \
         python3-dev \
         python3-setuptools \
         libpq-dev \
@@ -81,7 +81,7 @@ RUN set -ex \
     git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
     git checkout tags/$TAG_SYN \
-    && pip install --upgrade .[all] \
+    && pip3 install --upgrade .[all] \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
