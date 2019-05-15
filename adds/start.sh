@@ -24,7 +24,7 @@ generate_turn_key() {
 generate_synapse_file() {
 	local filepath="${1}"
 
-	python -m synapse.app.homeserver \
+	python3 synapse.app.homeserver \
 	       --config-path "${filepath}" \
 	       --generate-config \
 	       --report-stats ${REPORT_STATS} \
@@ -81,26 +81,13 @@ case $OPTION in
 		)
 
 		echo "-=> start matrix"
-		groupadd -r -g $MATRIX_GID matrix
-		useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix
-		chown $MATRIX_UID:$MATRIX_GID /data/*
-		chown -R $MATRIX_UID:$MATRIX_GID /data &
-		chown -R $MATRIX_UID:$MATRIX_GID /uploads &
-		chmod a+rwx /run
-		exec supervisord -c /supervisord.conf
+        	exec python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf
 		;;
 
 	"autostart")
 		if [ -f /data/homeserver.yaml ]; then
             if [ -f /data/turnserver.conf ]; then
                 echo "-=> start turn"
-                if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
-                    mv -f /conf/supervisord-turnserver.conf.deactivated /conf/supervisord-turnserver.conf
-                fi
-            else
-                if [ -f /conf/supervisord-turnserver.conf ]; then
-                    mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
-                fi
             fi
             (
                 if [ -f /data/vector.im.conf ] || [ -f /data/riot.im.conf ] ; then
@@ -108,13 +95,7 @@ case $OPTION in
                 fi
             )
             echo "-=> start matrix"
-            groupadd -r -g $MATRIX_GID matrix
-            useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix
-            chown $MATRIX_UID:$MATRIX_GID /data/*
-            chown -R $MATRIX_UID:$MATRIX_GID /data &
-            chown -R $MATRIX_UID:$MATRIX_GID /uploads &
-            chmod a+rwx /run
-            exec supervisord -c /supervisord.conf
+	    exec python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf
         else
             breakup="0"
             [[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
