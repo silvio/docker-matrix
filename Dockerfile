@@ -90,9 +90,9 @@ RUN set -ex \
     && chown $MATRIX_UID:$MATRIX_GID /data/* \
     && chown -R $MATRIX_UID:$MATRIX_GID /data \
     && chown -R $MATRIX_UID:$MATRIX_GID /uploads \
-    && chmod a+rwx /run \
     ; \
     apt-get autoremove -y $buildDeps ; \
     apt-get autoremove -y ;\
-    rm -rf /var/lib/apt/* /var/cache/apt/*
+    rm -rf /var/lib/apt/* /var/cache/apt/* \
+    && chmod 777 /run 
 USER matrix
