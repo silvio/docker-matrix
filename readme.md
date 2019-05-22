@@ -1,10 +1,15 @@
 # Docker image for Matrix
 
-- [Matrix Chat](https://chat.aventer.biz/#/room/#dockermatrix:matrix.aventer.biz)
+- [Matrix Chat](https://riot.im/app/#/room/#dockermatrix:matrix.aventer.biz)
 - [Docker Hub](https://hub.docker.com/r/avhost/docker-matrix/tags)
 - [Donation](https://liberapay.com/docker-matrix/)
 
 ## Notice
+
+With v0.99.5 we publish some changes that can breake the backward compatibility.
+
+1) We change to python3. We could not test everything. Please come into our chat and/or open a issue on github. 
+2) You cannot change the Matrix UID and GID during running time. Means, you cannot overwrite with ```-e MATRIX_UID```. Please be sure that your persistent data have the correct owner.
 
 Please make sure to use our tagged docker images and not the latest one. Specifically in a production environment you should never use :latest as that the version can be broken.
 
@@ -106,8 +111,8 @@ argument or look at the container via cat.
   only for `generate`
 * `MATRIX_UID`/`MATRIX_GID`: UserID and GroupID of user within container which
   runs the synapse server. The files mounted under /data are `chown`ed to this
-  ownership. Default is `MATRIX_UID=991` and `MATRIX_GID=991`. It can overriden
-  via `-e MATRIX_UID=...` and `-e MATRIX_GID=...` at start time.
+  ownership. Default is `MATRIX_UID=991` and `MATRIX_GID=991`. It can not be overriden
+  during running time.
 
 ## build specific arguments
 
