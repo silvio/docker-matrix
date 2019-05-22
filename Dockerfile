@@ -87,4 +87,5 @@ RUN set -ex \
     ; \
     apt-get autoremove -y $buildDeps ; \
     apt-get autoremove -y ;\
-    rm -rf /var/lib/apt/* /var/cache/apt/*
+    rm -rf /var/lib/apt/* /var/cache/apt/* \
+    && chmod 777 /run 
