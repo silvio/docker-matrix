@@ -14,7 +14,7 @@ We are working with the repository at "https://github.com/AVENTER-UG/docker-matr
 
 ## Security
 
-We verify the docker layers of our image automaticly with clair. Matrix is not a part of the vulnerabilitie scan, which  means clair will only find vulnerabilities that are part of the OS (operating system).
+We verify the docker layers of our image automaticly with clair. Matrix is not a part of the vulnerability scan, which  means clair will only find vulnerabilities that are part of the OS (operating system).
 
 ## Introduction
 
@@ -46,19 +46,20 @@ there is also an [example setup](Example.configs.md) available to read.
 
 [readme file]: https://github.com/matrix-org/synapse/blob/master/README.rst
 
-To get the things done, "generate" will create a self-signed certificate, which
-can be used for federation.
+To get the things done, "generate" will create a self-signed certificate, which should be replaced with a valid certificate if used in production, either by giving synapse access to the valid certificate, or by using a reverse proxy.
+
+It is recommended to run the container with a --user <UID>:<GID> flag, to prevent the container from running as root. However, the synapse process will not run as root if the user flag is not supplied.
 
 Example:
 
-    $ docker run -v /tmp/data:/data --rm -e SERVER_NAME=localhost -e REPORT_STATS=no avhost/docker-matrix:<VERSION> generate
+    $ docker run -v /tmp/data:/data --rm --user 991:991 -e SERVER_NAME=localhost -e REPORT_STATS=no avhost/docker-matrix:<VERSION> generate
 
 ## Start
 
 For starting you need the port bindings and a mapping for the
 `/data`-directory.
 
-    $ docker run -d -p 8448:8448 -p 8008:8008 -p 3478:3478 -v /tmp/data:/data avhost/docker-matrix:<VERSION> start
+    $ docker run -d --user 991:991 -p 8448:8448 -p 8008:8008 -p 3478:3478 -v /tmp/data:/data avhost/docker-matrix:<VERSION> start
 
 ## Port configurations
 
@@ -105,7 +106,7 @@ argument or look at the container via cat.
 * `REPORT_STATS`: statistic report, mandatory, values: `yes` or `no`, needed
   only for `generate`
 * `MATRIX_UID`/`MATRIX_GID`: UserID and GroupID of user within container which
-  runs the synapse server. The files mounted under /data are `chown`ed to this
+  runs the synapse server, if the --user flag is not supplied. The files mounted under /data are `chown`ed to this
   ownership. Default is `MATRIX_UID=991` and `MATRIX_GID=991`. It can overriden
   via `-e MATRIX_UID=...` and `-e MATRIX_GID=...` at start time.
 
