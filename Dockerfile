@@ -15,7 +15,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v0.99.5
+ARG TAG_SYN=v0.99.5.1
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
@@ -91,8 +91,4 @@ RUN set -ex \
     && chown -R $MATRIX_UID:$MATRIX_GID /data \
     && chown -R $MATRIX_UID:$MATRIX_GID /uploads \
     ; \
-    apt-get autoremove -y $buildDeps ; \
-    apt-get autoremove -y ;\
-    rm -rf /var/lib/apt/* /var/cache/apt/* \
-    && chmod 777 /run 
 USER matrix
