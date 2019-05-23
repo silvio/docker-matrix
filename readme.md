@@ -1,10 +1,14 @@
 # Docker image for Matrix
 
-- [Matrix Chat](https://chat.aventer.biz/#/room/#dockermatrix:matrix.aventer.biz)
+- [Matrix Chat](https://riot.im/app/#/room/#dockermatrix:matrix.aventer.biz)
 - [Docker Hub](https://hub.docker.com/r/avhost/docker-matrix/tags)
 - [Donation](https://liberapay.com/docker-matrix/)
 
 ## Notice
+
+With v0.99.5 we publish some changes that can breake the backward compatibility.
+
+We change to python3. We could not test everything. Please come into our chat and/or open a issue on github. 
 
 Please make sure to use our tagged docker images and not the latest one. Specifically in a production environment you should never use :latest as that the version can be broken.
 
