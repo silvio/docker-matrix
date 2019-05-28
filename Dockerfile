@@ -76,18 +76,17 @@ RUN set -ex \
     pip3 install --upgrade python-ldap ;\
     pip3 install --upgrade lxml \
     ; \
-    git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
+    groupadd -r -g $MATRIX_GID matrix \
+    && useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix \
+    && chown -R $MATRIX_UID:$MATRIX_GID /data \
+    && chown -R $MATRIX_UID:$MATRIX_GID /uploads \
+    && git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
-    git checkout tags/$TAG_SYN \
+    && git checkout tags/$TAG_SYN \
     && pip3 install --upgrade .[all] \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
-    && rm -rf /synapse \
-    ; \
-    groupadd -r -g $MATRIX_GID matrix \
-    && useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix \
-    && chown -R $MATRIX_UID:$MATRIX_GID /data \
-    && chown -R $MATRIX_UID:$MATRIX_GID /uploads
+    && rm -rf /synapse 
 
 USER matrix
