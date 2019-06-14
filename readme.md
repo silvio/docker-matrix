@@ -113,6 +113,9 @@ argument or look at the container via cat.
   runs the synapse server, if the --user flag is not supplied. The files mounted under /data are `chown`ed to this
   ownership. Default is `MATRIX_UID=991` and `MATRIX_GID=991`. It can overriden
   via `-e MATRIX_UID=...` and `-e MATRIX_GID=...` at start time.
+* `LD_PRELOAD` This is set by default to use jemalloc as memory allocator, as 
+  that has been shown to greatly reduce the memory useage of synapse. To use the default malloc
+  the environmental variable has to be emptied, by adding `-e LD_PRELOAD` when running the container.
 
 ## build specific arguments
 
