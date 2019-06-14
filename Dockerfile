@@ -69,6 +69,7 @@ RUN set -ex \
         python3-pip \
         python3-jinja2 \
         sqlite \
+        libjemalloc1 \
         zlib1g \
     ; \
     pip3 install --upgrade wheel ;\
@@ -90,3 +91,4 @@ RUN set -ex \
     && rm -rf /synapse 
 
 USER matrix
+ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.1"
