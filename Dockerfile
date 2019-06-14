@@ -6,11 +6,6 @@ MAINTAINER Andreas Peters <support@aventer.biz>
 # install homerserver template
 COPY adds/start.sh /start.sh
 
-# add supervisor configs
-COPY adds/supervisord-matrix.conf /conf/
-COPY adds/supervisord-turnserver.conf /conf/
-COPY adds/supervisord.conf /
-
 # startup configuration
 ENTRYPOINT ["/start.sh"]
 CMD ["autostart"]
@@ -20,7 +15,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v0.99.4
+ARG TAG_SYN=v1.0.0
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
@@ -53,9 +48,10 @@ RUN set -ex \
         libxslt1-dev \
         linux-headers-amd64 \
         make \
-        python-dev \
-        python-setuptools \
         zlib1g-dev \
+        python3-dev \
+        python3-setuptools \
+        libpq-dev \
     ' \
     && apt-get install -y --no-install-recommends \
         $buildDeps \
@@ -69,32 +65,28 @@ RUN set -ex \
         libxml2 \
         libxslt1.1 \
         pwgen \
-        python \
-        python-pip \
-        python-virtualenv \
-	python-jinja2 \
+        python3 \
+        python3-pip \
+        python3-jinja2 \
         sqlite \
         zlib1g \
     ; \
-    python -m pip install --upgrade pip ;\
-    python -m pip install --upgrade wheel ;\
-    python -m pip install --upgrade python-ldap ;\
-    python -m pip install --upgrade lxml ;\
-    python -m pip install --upgrade twisted ;\
-    python -m pip install --upgrade --force "Jinja2>=2.9" ;\
-    python -m pip install --upgrade supervisor ;\
-    python -m pip install --upgrade bleach ;\
-    pythom -m pip install --upgrade psycopg2 \
+    pip3 install --upgrade wheel ;\
+    pip3 install --upgrade psycopg2;\
+    pip3 install --upgrade python-ldap ;\
+    pip3 install --upgrade lxml \
     ; \
-    git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
+    groupadd -r -g $MATRIX_GID matrix \
+    && useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix \
+    && chown -R $MATRIX_UID:$MATRIX_GID /data \
+    && chown -R $MATRIX_UID:$MATRIX_GID /uploads \
+    && git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
-    git checkout tags/$TAG_SYN \
-    && python -m pip install --upgrade .[all] \
+    && git checkout tags/$TAG_SYN \
+    && pip3 install --upgrade .[all] \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
-    && rm -rf /synapse \
-    ; \
-    apt-get autoremove -y $buildDeps ; \
-    apt-get autoremove -y ;\
-    rm -rf /var/lib/apt/* /var/cache/apt/*
+    && rm -rf /synapse 
+
+USER matrix
