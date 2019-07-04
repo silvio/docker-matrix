@@ -15,7 +15,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v1.0.0
+ARG TAG_SYN=v1.1.0
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
@@ -83,7 +83,7 @@ RUN set -ex \
     && chown -R $MATRIX_UID:$MATRIX_GID /uploads \
     && git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
-    && git checkout tags/$TAG_SYN \
+    && git checkout -b tags/$TAG_SYN \
     && pip3 install --upgrade .[all] \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
