@@ -1,4 +1,4 @@
-FROM debian:9.5-slim
+FROM debian:buster-slim
 
 # Maintainer
 MAINTAINER Andreas Peters <support@aventer.biz>
@@ -69,7 +69,7 @@ RUN set -ex \
         python3-pip \
         python3-jinja2 \
         sqlite \
-        libjemalloc1 \
+        libjemalloc2 \
         zlib1g \
     ; \
     pip3 install --upgrade wheel ;\
@@ -91,4 +91,4 @@ RUN set -ex \
     && rm -rf /synapse 
 
 USER matrix
-ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.1"
+ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.2"
