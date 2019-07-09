@@ -1,4 +1,4 @@
-FROM debian:9.5-slim
+FROM debian:buster-slim
 
 # Maintainer
 MAINTAINER Andreas Peters <support@aventer.biz>
@@ -15,7 +15,7 @@ VOLUME ["/data"]
 # Git branch to build from
 ARG BV_SYN=master
 ARG BV_TUR=master
-ARG TAG_SYN=v0.99.5.1
+ARG TAG_SYN=v1.1.1
 
 # user configuration
 ENV MATRIX_UID=991 MATRIX_GID=991
@@ -69,6 +69,7 @@ RUN set -ex \
         python3-pip \
         python3-jinja2 \
         sqlite \
+        libjemalloc2 \
         zlib1g \
     ; \
     pip3 install --upgrade wheel ;\
@@ -76,18 +77,18 @@ RUN set -ex \
     pip3 install --upgrade python-ldap ;\
     pip3 install --upgrade lxml \
     ; \
-    git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
+    groupadd -r -g $MATRIX_GID matrix \
+    && useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix \
+    && chown -R $MATRIX_UID:$MATRIX_GID /data \
+    && chown -R $MATRIX_UID:$MATRIX_GID /uploads \
+    && git clone --branch $BV_SYN --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
-    git checkout tags/$TAG_SYN \
+    && git checkout -b tags/$TAG_SYN \
     && pip3 install --upgrade .[all] \
     && GIT_SYN=$(git ls-remote https://github.com/matrix-org/synapse $BV_SYN | cut -f 1) \
     && echo "synapse: $BV_SYN ($GIT_SYN)" >> /synapse.version \
     && cd / \
-    && rm -rf /synapse \
-    ; \
-    groupadd -r -g $MATRIX_GID matrix \
-    && useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix \
-    && chown -R $MATRIX_UID:$MATRIX_GID /data \
-    && chown -R $MATRIX_UID:$MATRIX_GID /uploads
+    && rm -rf /synapse 
 
 USER matrix
+ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.2"
