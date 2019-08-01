@@ -46,9 +46,10 @@ server domain and a `/data`-directory. After this you have to edit the
 generated homeserver.yaml file.
 
 Please read the synapse [readme file] about configuration settings, 
-there is also an [example setup](Example.configs.md) available to read.
+there is also an [example setup] available to read.
 
 [readme file]: https://github.com/matrix-org/synapse/blob/master/README.rst
+[example setup]: https://github.com/AVENTER-UG/docker-matrix/blob/master/Example.configs.md
 
 To get the things done, "generate" will create a self-signed certificate, which should be replaced with a valid certificate if used in production, either by giving synapse access to the valid certificate, or by using a reverse proxy.
 
